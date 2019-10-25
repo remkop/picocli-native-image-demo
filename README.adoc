@@ -1,0 +1,21 @@
+= Building a native CLI app with picocli and GraalVM
+
+== Instructions for Windows
+
+* Install Java 8
+* Install Git for Windows
+* Install https://chocolatey.org/docs/installation[Chocolatey]
+* Get the Microsoft Windows SDK for Windows 7 and .NET Framework 4 (ISO): https://www.microsoft.com/en-us/download/details.aspx?id=8442
+
+----
+choco install windows-sdk-7.1 kb2519277
+----
+
+Then (from the `cmd` prompt), activate the sdk-7.1 environment:
+
+----
+call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
+----
+
+You will need to add `msvcr100.dll` (from `C:\Windows\System32`) from VS C++ Redistributable 2010.
+
