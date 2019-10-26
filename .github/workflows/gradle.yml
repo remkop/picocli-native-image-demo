@@ -22,7 +22,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: checksum
-        path: artifacts/${{ matrix.os }}
+        path: build/graal
 
   build-windows:
 
@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: checksum.exe
-          path: artifacts/windows-latest
+          path: build/graal
