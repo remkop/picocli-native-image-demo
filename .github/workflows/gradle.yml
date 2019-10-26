@@ -21,8 +21,7 @@ jobs:
     - name: Publish artifact
       uses: actions/upload-artifact@master
       with:
-        name: checksum
-        path: artifacts/${{ matrix.os }}
+        name: checksum-${{ matrix.os }}
 
   build-windows:
 
@@ -46,4 +45,3 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: checksum.exe
-          path: artifacts/windows
