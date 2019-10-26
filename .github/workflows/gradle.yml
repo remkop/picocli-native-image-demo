@@ -36,9 +36,9 @@ jobs:
         os: [windows-latest]
 
     steps:
-      - continue-on-error: true
       - uses: actions/checkout@v1
       - name: Set up Windows SDK 7.1
+        continue-on-error: true
         run: |
           choco install windows-sdk-7.1 kb2519277
       - name: Set up JDK 1.8
