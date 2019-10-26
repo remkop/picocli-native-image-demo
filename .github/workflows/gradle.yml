@@ -18,10 +18,14 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Rename the artifact to OS-unique name
+      shell: bash
+      run: |
+        value=`cp build/graal/checksum build/graal/checksum-${{ matrix.os }}`
     - name: Publish artifact
       uses: actions/upload-artifact@master
       with:
-        name: checksum
+        name: checksum-${{ matrix.os }}
         path: build/graal
 
   build-windows:
