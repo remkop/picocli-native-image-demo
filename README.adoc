@@ -1,7 +1,7 @@
 = Building a native CLI app with picocli and GraalVM
 
-[link=https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true]image:https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true"[]
-[link=https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg]image:https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg[]
+image:https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true"[Appveyor Build Status,link=https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true]
+image:https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg[GitHub Action Build Status,link=https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg]
 
 Examples for creating GraalVM native images for picocli-based applications
 
