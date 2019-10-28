@@ -13,12 +13,13 @@ build_script:
 - cmd: gradlew build
 
 for:
-  -
-    matrix:
-      only:
-        - image: Ubuntu
+-
+  matrix:
+    only:
+      - image: Ubuntu
+
   build_script:
-    - ./gradlew build
+  - ./gradlew build
 
 
 test: off
