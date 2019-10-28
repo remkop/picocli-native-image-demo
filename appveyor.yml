@@ -16,4 +16,7 @@ build_script:
 - cmd: gradlew build
     
 test: off
-  
+
+artifacts:
+  - path: build/graal
+    name: checksum.exe
