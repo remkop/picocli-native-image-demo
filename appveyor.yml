@@ -26,4 +26,4 @@ test: off
 
 artifacts:
   - path: build/graal
-    name: checksum*
+    name: checksum
