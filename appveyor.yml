@@ -2,21 +2,30 @@
 
 version: "v-{build}"
 
-image: Visual Studio 2015
-
-clone_folder: C:\projects\picocli-native-image-demo
-
-environment:
-  GRAALVM_HOME: C:\projects\picocli-native-image-demo\graalvm\graalvm-ce-19.1.1
+image:
+  - Visual Studio 2015
+  - Ubuntu
 
 build_script:
 - cmd: >-
     choco install windows-sdk-7.1 kb2519277
-    
+
 - cmd: gradlew build
-    
+
+for:
+  -
+    matrix:
+      only:
+        - image: Ubuntu
+  build_script:
+    - ./gradlew build
+
+
 test: off
 
 artifacts:
   - path: build/graal
     name: checksum.exe
+
+  - path: build/graal
+    name: checksum
