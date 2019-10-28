@@ -1,18 +1,25 @@
 language: java
 jdk:
-  - openjdk8
+  - openjdk11
 
 os:
   - linux
   - osx
   - windows
 
-#compiler:
-#  - gcc
-#  - clang
-
+jobs:
+  include:
+    - os: linux
+      env: TOXENV=py32
+    - os: osx
+      language: generic
+      env: TOXENV=py32
+    - os: windows
+      language: generic
+      env: TOXENV=py33
 install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install windows-sdk-7.1 kb2519277; fi
+#  - ./.travis/install.sh
 
 
 before_script:
