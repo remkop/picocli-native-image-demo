@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2016]
+        os: [windows-2016, windows-latest]
 
     steps:
       - uses: actions/checkout@v1
@@ -47,8 +47,12 @@ jobs:
           java-version: 1.8
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Rename the artifact to OS-unique name
+        shell: bash
+        run: |
+          value=`cp build/graal/checksum build/graal/checksum-${{ matrix.os }}`
       - name: Publish artifact
         uses: actions/upload-artifact@master
         with:
-          name: checksum.exe
+          name: checksum-${{ matrix.os }}.exe
           path: build/graal
