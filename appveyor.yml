@@ -26,7 +26,4 @@ test: off
 
 artifacts:
   - path: build/graal
-    name: checksum.exe
-
-  - path: build/graal
-    name: checksum
+    name: checksum*
