@@ -12,7 +12,8 @@ environment:
 build_script:
 - cmd: >-
     choco install windows-sdk-7.1 kb2519277
-    gradlew build
+    
+- cmd: gradlew build
     
 test: off
   
