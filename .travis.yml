@@ -11,7 +11,8 @@ os:
 #  - gcc
 #  - clang
 
-before_install: choco install windows-sdk-7.1 kb2519277
+install:
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install windows-sdk-7.1 kb2519277; fi
 
 
 before_script:
