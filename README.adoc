@@ -1,13 +1,76 @@
-= Building a native CLI app with picocli and GraalVM
+= Building native CLI apps in Java with picocli and GraalVM
 
-image:https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true"[Appveyor Build Status,link=https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true]
-image:https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg[GitHub Action Build Status,link=https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg]
+image:https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true"[Appveyor Build Status,link=https://ci.appveyor.com/project/remkop/picocli-native-image-demo]
+image:https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg[GitHub Action Build Status,link=https://github.com/remkop/picocli-native-image-demo/actions]
 
 Examples for creating GraalVM native images for picocli-based applications
 
 CAUTION: Below is work in progress
 
-== Instructions for Windows
+image::https://picocli.info/images/exe-picocli-on-graalvm.png[]
+
+== Introduction
+
+This project shows examples of creating native images for picocli-based Java command line applications that can run as standalone executables on Windows, Linux and MacOS without requiring a JVM to be installed.
+
+GraalVM does not have cross-compile support for native images https://github.com/oracle/graal/issues/407[yet], so at the moment you need to compile on Windows to get a Windows executable, compile on Linux to get a Linux executable, and on MacOS to get a MacOS executable. 
+
+This project shows how to do this with a Continuous Integration setup, using GitHub Actions and AppVeyor.
+The current setup creates Linux and MacOS executables with GitHub Actions, and a Windows executable on AppVeyor. The resulting executables are available as 
+
+* GitHub Action artifacts (Actions > https://github.com/remkop/picocli-native-image-demo/actions?workflow=Java+CI[Java CI] > click the most recent build in the list > Artifacts (top-right of the page)) : checksum-macOS-latest and checksum-ubuntu-latest
+* https://ci.appveyor.com/project/remkop/picocli-native-image-demo/build/artifacts[AppVeyor Artifacts] (checksum.exe)
+
+I have been unable to get the Windows build to work in GitHub Actions, I am still trying to fix this. Meanwhile, I added the AppVeyor build to make sure people can build Windows executables.
+
+The current build uses Gradle, I plan to add a Maven build example in the near future.
+
+== Install Compiler Toolchain
+
+The setup for your Continuous Integration environment needs to have a JDK, and the toolchain to compile C/C++ code.
+
+=== Linux and MacOS Compiler Toolchain
+
+For compilation `native-image` depends on the local toolchain, so on Linux and MacOS we need `glibc-devel`, `zlib-devel` (header files for the C library and zlib) and `gcc` to be available on our system. The below is not required with GitHub Actions, since these are already available:
+
+On Linux: `sudo dnf install gcc glibc-devel zlib-devel` or `sudo apt-get install build-essential libz-dev`.
+
+On macOS, execute `xcode-select --install`.
+
+=== Windows Compiler Toolchain
+
+GraalVM https://github.com/oracle/graal/issues/1258[needs] the https://www.microsoft.com/en-us/download/details.aspx?id=8442[Microsoft Windows SDK for Windows 7 and .NET Framework 4] as well as the https://stackoverflow.com/a/45784634/873282[C compilers from KB2519277].
+
+You can install these using https://chocolatey.org/docs/installation[chocolatey]:
+
+----
+choco install windows-sdk-7.1 kb2519277
+----
+
+Then (from the `cmd` prompt), activate the sdk-7.1 environment:
+
+----
+call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
+----
+
+This starts a new Command Prompt, with the sdk-7.1 environment enabled. All subsequent commands must be run in this Command Prompt window.
+
+
+
+== Gradle
+
+The Gradle build uses the wonderful https://github.com/palantir/gradle-graal[gradle-graal plugin] from Palantir. This plugin will download the GraalVM JDK and unzip it and build with that. 
+
+The plugin has https://github.com/palantir/gradle-graal/pull/127[support for Windows], and it will take care of calling `call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"` to ensure the `native-image` generation is done after the windows-sdk-7.1 environment is set up.
+
+This makes your Gradle setup very simple. See the project https://github.com/remkop/picocli-native-image-demo/blob/master/build.gradle[build.gradle].
+
+
+== Building Native Images Manually
+
+CAUTION: Below is work in progress
+
+=== Instructions for Windows
 
 * Install Java 8
 * Install Git for Windows
