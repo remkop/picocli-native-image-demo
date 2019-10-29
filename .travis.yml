@@ -19,8 +19,8 @@ jobs:
 install:
 #  - if [ $TRAVIS_OS_NAME = windows ]; then choco install windows-sdk-7.1 kb2519277; fi
   - if [ $TRAVIS_OS_NAME = windows ]; then curl -v -o graalvm.zip https://github.com/oracle/graal/releases/download/vm-19.2.1/graalvm-ce-windows-amd64-19.2.1.zip; fi
-  - if [ $TRAVIS_OS_NAME = windows ]; then pwd ; ls; fi
-  - if [ $TRAVIS_OS_NAME = windows ]; then gunzip graalvm.zip; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then pwd ; ls -al; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then gunzip -v graalvm.zip; fi
   - if [ $TRAVIS_OS_NAME = windows ]; then pwd ; ls; ls graalvm  ; fi
 #  - ./.travis/install.sh
 
