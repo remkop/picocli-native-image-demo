@@ -40,8 +40,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Print Installed Software
         shell: powershell
-        run: |
-          value = "Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate"
+        run: Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate
       - name: Set up Windows SDK 7.1
         continue-on-error: true
         run: |
