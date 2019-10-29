@@ -38,9 +38,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Print Installed Software
+      - name: Print Installed MS VC++ Redistributables
         shell: powershell
         run: Get-WmiObject -Class Win32_Product -Filter "Name LIKE 'Microsoft Visual C++ 20%% Redistributable%'"
+      - name: Uninstall Installed MS VC++ Redistributables
+        shell: powershell
+        run: $app = Get-WmiObject -Class Win32_Product -Filter "Name LIKE 'Microsoft Visual C++ 20%% Redistributable%'" | foreach-object -process {$app.Uninstall()}
       - name: Set up Windows SDK 7.1
         continue-on-error: true
         run: |
