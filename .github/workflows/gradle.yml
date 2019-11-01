@@ -41,7 +41,7 @@ jobs:
       - name: List Chocolatey Installed Packages
         continue-on-error: true
         run: |
-          choco list -l
+          choco list --local-only
       - name: Print Installed MS VC++ Redistributables
         shell: powershell
         run: Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where {$_.DisplayName -clike 'Microsoft Visual C++ 20* Redistributable*'}
