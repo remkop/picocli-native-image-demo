@@ -45,11 +45,10 @@ jobs:
       - name: Print Installed MS VC++ Redistributables
         shell: powershell
         run: Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where {$_.DisplayName -clike 'Microsoft Visual C++ 20* Redistributable*'}
-      - name: Uninstall Installed MS VC++ Redistributables
-        shell: powershell
+      - name: Uninstall vcredist140 via Choco
+        continue-on-error: true
         run: |
-          $apps = Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where {$_.DisplayName -clike 'Microsoft Visual C++ 20* Redistributable*'}
-          foreach ($app in $apps) {$app.Uninstall()}
+          choco uninstall vcredist140
       - name: Set up Windows SDK 7.1
         continue-on-error: true
         run: |
