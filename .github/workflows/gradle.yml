@@ -42,14 +42,17 @@ jobs:
         continue-on-error: true
         run: |
           choco list --local-only
-      - name: Print Installed MS VC++ Redistributables
-        shell: powershell
-        run: Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where {$_.DisplayName -clike 'Microsoft Visual C++ 20* Redistributable*'}
       - name: Uninstall vcredist140 via Choco
         continue-on-error: true
         run: |
           choco uninstall openssl.light php
           choco uninstall vcredist140
+      - name: Print Installed MS VC++ Redistributables via Get-ItemProperty
+        shell: powershell
+        run: Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where {$_.DisplayName -clike 'Microsoft Visual C++ 20* Redistributable*'}
+      - name: Print Installed MS VC++ Redistributables via Get-WmiObject
+        shell: powershell
+        run: Get-WmiObject -Class Win32_Product -Filter "Name LIKE 'Microsoft Visual C++ 20%% Redistributable%'"
       - name: Set up Windows SDK 7.1
         continue-on-error: true
         run: |
