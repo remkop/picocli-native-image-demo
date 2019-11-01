@@ -48,7 +48,7 @@ jobs:
       - name: Uninstall vcredist140 via Choco
         continue-on-error: true
         run: |
-          choco uninstall openssl.light
+          choco uninstall openssl.light php
           choco uninstall vcredist140
       - name: Set up Windows SDK 7.1
         continue-on-error: true
