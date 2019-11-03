@@ -17,7 +17,7 @@ jobs:
       language: shell
       env: JAVA_HOME2="c:\Program Files\Java\jdk1.8.0_221"
 install:
-  - if [ $TRAVIS_OS_NAME = windows ]; then choco install jdk8; java -version ; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install jdk8; fi
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install windows-sdk-7.1 kb2519277; fi
 
 before_script:
