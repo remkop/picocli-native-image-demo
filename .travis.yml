@@ -24,8 +24,8 @@ before_script:
   - chmod +x gradlew
 script:
   - ./gradlew check --info
-  - if [ $TRAVIS_OS_NAME  = windows ]; then zip build/graal/checksum.exe build/graal/checksum-$TRAVIS_OS_NAME.zip ; fi
-  - if [ $TRAVIS_OS_NAME != windows ]; then zip build/graal/checksum build/graal/checksum-$TRAVIS_OS_NAME.zip ; fi
+  - if [ $TRAVIS_OS_NAME  = windows ]; then zip build/graal/checksum-$TRAVIS_OS_NAME.zip build/graal/checksum.exe ; fi
+  - if [ $TRAVIS_OS_NAME != windows ]; then zip build/graal/checksum-$TRAVIS_OS_NAME.zip build/graal/checksum ; fi
 
 # Deploy the resulting artifact to GitHub Releases
 #deploy:
