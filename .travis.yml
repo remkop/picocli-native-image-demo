@@ -10,31 +10,37 @@ jdk:
 jobs:
   include:
     - os: linux
-      env: TOXENV=py32
+      env: DUMMY=alreadyHasJava
     - os: osx
-      env: TOXENV=py32
+      env: DUMMY=alreadyHasJava
     - os: windows
       language: shell
+      env: JAVA_HOME2="c:\Program Files\Java\jdk1.8.0_221"
 install:
-  - if [ $TRAVIS_OS_NAME = windows ]; then choco install jdk8; export PATH=$PATH:"/c/Program Files/Java/jdk1.8.0_221/bin"; set JAVA_HOME="c:\Program Files\Java\jdk1.8.0_221" ; java -version ; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install jdk8; java -version ; fi
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install windows-sdk-7.1 kb2519277; fi
-#  - if [ $TRAVIS_OS_NAME = windows ]; then curl -v -o graalvm.zip https://github.com/oracle/graal/releases/download/vm-19.2.1/graalvm-ce-windows-amd64-19.2.1.zip; pwd ; ls -al; gunzip -v graalvm.zip; pwd ; ls; ls graalvm ; fi
-#  - ./.travis/install.sh
-
-
-
 
 before_script:
   - chmod +x gradlew
 script:
   - ./gradlew check --info
+  - if [ $TRAVIS_OS_NAME  = windows ]; then zip build/graal/checksum.exe build/graal/checksum-$TRAVIS_OS_NAME.zip ; fi
+  - if [ $TRAVIS_OS_NAME != windows ]; then zip build/graal/checksum build/graal/checksum-$TRAVIS_OS_NAME.zip ; fi
 
+# Deploy the resulting artifact to GitHub Releases
+#deploy:
+#  provider: releases
+#  api_key: "GITHUB OAUTH TOKEN"
+#  file: build/graal/checksum-$TRAVIS_OS_NAME.zip
+#  skip_cleanup: true
+#  on:
+#    tags: true
 
 # avoid uploading the cache after every build
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+#before_cache:
+#  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+#  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+#cache:
+#  directories:
+#    - $HOME/.gradle/caches/
+#    - $HOME/.gradle/wrapper/
