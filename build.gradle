@@ -51,4 +51,5 @@ graal {
     graalVersion '19.2.1'
     //option '--static'
     option '-J-Djava.security.properties=java.security.overrides'
+    option '--enable-all-security-services'
 }
