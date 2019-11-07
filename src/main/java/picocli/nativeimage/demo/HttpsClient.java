@@ -22,7 +22,7 @@ import java.util.concurrent.Callable;
         version = "httpsget 4.0",
         description = "Uses https protocol to get a remote resource.")
 public class HttpsClient implements Callable<Integer> {
-    private static final String DEFAULT_URL = "https://github.com/remkop/picocli-native-image-demo/blob/master/java.security.overrides";
+    private static final String DEFAULT_URL = "https://raw.githubusercontent.com/remkop/picocli-native-image-demo/master/java.security.overrides";
 
     @Parameters(description = "The URL to download", defaultValue = DEFAULT_URL)
     URL url;
