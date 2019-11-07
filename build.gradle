@@ -50,4 +50,5 @@ graal {
     outputName 'checksum'
     graalVersion '19.2.1'
     //option '--static'
+    option '-J-Djava.security.properties=java.security.overrides'
 }
