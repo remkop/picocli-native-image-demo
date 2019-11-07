@@ -16,18 +16,23 @@ import java.io.*;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
-public class HttpsClient{
+import java.util.concurrent.Callable;
+
+@Command(name = "httpsget", mixinStandardHelpOptions = true,
+        version = "httpsget 4.0",
+        description = "Uses https protocol to get a remote resource.")
+public class HttpsClient implements Callable<Integer> {
 	
    public static void main(String[] args)
    {
-        new HttpsClient().testIt();
+        int exitCode = new CommandLine(new HttpsClient()).execute(args);
+        System.exit(exitCode);
    }
 	
-   private void testIt(){
+   public Integer call() throws Exception {
 
       String https_url = "https://www.google.com/";
       URL url;
-      try {
 
 	     url = new URL(https_url);
 	     HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
@@ -37,13 +42,8 @@ public class HttpsClient{
 			
 	     //dump all the content
 	     print_content(con);
-			
-      } catch (MalformedURLException e) {
-	     e.printStackTrace();
-      } catch (IOException e) {
-	     e.printStackTrace();
-      }
-
+      
+      return 0;
    }
 	
    private void print_https_cert(HttpsURLConnection con){
