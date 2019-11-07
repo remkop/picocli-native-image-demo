@@ -7,11 +7,6 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import picocli.jansi.graalvm.AnsiConsole;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.cert.Certificate;
-import java.io.*;
-
 import java.util.concurrent.Callable;
 
 @Command(name = "demo", mixinStandardHelpOptions = true,
@@ -31,5 +26,6 @@ public class Demo implements Callable<Integer> {
     public Integer call() throws Exception {
         System.err.println("Please specify a subcommand.");
         CommandLine.usage(this, System.err);
+        return 0;
     }
 }
