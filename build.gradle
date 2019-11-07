@@ -52,4 +52,5 @@ graal {
     //option '--static'
     option '-J-Djava.security.properties=java.security.overrides'
     option '--enable-all-security-services'
+    option '--report-unsupported-elements-at-runtime'
 }
