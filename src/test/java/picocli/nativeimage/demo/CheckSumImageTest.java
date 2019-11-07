@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CheckSumImageTest {
 
-    static final String executable = "build/graal/checksum" + extension();
+    static final String executable = "build/graal/demo" + extension();
 
     private static String extension() {
         return System.getProperty("os.name").toLowerCase().startsWith("win") ? ".exe" : "";
@@ -29,7 +29,7 @@ class CheckSumImageTest {
 
     @Test
     public void testUsageHelp() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "--help").start();
+        Process process = new ProcessBuilder(executable, "checksum", "--help").start();
 
         String exected = String.format("" +
                 "Usage: checksum [-hV] [-a=<algorithm>] <file>%n" +
@@ -47,7 +47,7 @@ class CheckSumImageTest {
 
     @Test
     public void testVersionInfo() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "--version").start();
+        Process process = new ProcessBuilder(executable, "checksum", "--version").start();
 
         String exected = String.format("checksum 4.0%n"); // JVM: 1.8.0_222 (Oracle Corporation Substrate VM GraalVM dev)
 
@@ -76,7 +76,7 @@ class CheckSumImageTest {
     public void testMd5Algorithm() throws IOException, InterruptedException {
         File tempFile = createTempDataFile();
 
-        Process process = new ProcessBuilder(executable, "-a", "md5", tempFile.getAbsolutePath()).start();
+        Process process = new ProcessBuilder(executable, "checksum", "-a", "md5", tempFile.getAbsolutePath()).start();
 
         String exected = String.format("764efa883dda1e11db47671c4a3bbd9e%n");
 
@@ -91,7 +91,7 @@ class CheckSumImageTest {
     public void testSha1Algorithm() throws IOException, InterruptedException {
         File tempFile = createTempDataFile();
 
-        Process process = new ProcessBuilder(executable, "-a", "sha1", tempFile.getAbsolutePath()).start();
+        Process process = new ProcessBuilder(executable, "checksum", "-a", "sha1", tempFile.getAbsolutePath()).start();
 
         String exected = String.format("55ca6286e3e4f4fba5d0448333fa99fc5a404a73%n");
 
@@ -104,7 +104,7 @@ class CheckSumImageTest {
 
     @Test
     public void testInvalidInput_MissingRequiredArg() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable).start();
+        Process process = new ProcessBuilder(executable, "checksum").start();
 
         String exected = String.format("" +
                 "Missing required parameter: <file>%n" +
@@ -123,7 +123,7 @@ class CheckSumImageTest {
 
     @Test
     public void testInvalidInput_UnknownOption() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "file", "--unknown").start();
+        Process process = new ProcessBuilder(executable, "checksum", "file", "--unknown").start();
 
         String exected = String.format("" +
                 "Unknown option: '--unknown'%n" +
