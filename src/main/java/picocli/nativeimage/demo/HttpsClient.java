@@ -22,28 +22,26 @@ import java.util.concurrent.Callable;
         version = "httpsget 4.0",
         description = "Uses https protocol to get a remote resource.")
 public class HttpsClient implements Callable<Integer> {
-	
-   public static void main(String[] args)
-   {
+    private static final String DEFAULT_URL = "https://github.com/remkop/picocli-native-image-demo/blob/master/java.security.overrides";
+
+    @Parameters(description = "The URL to download", defaultValue = DEFAULT_URL)
+    URL url;
+
+    public static void main(String[] args) {
         int exitCode = new CommandLine(new HttpsClient()).execute(args);
         System.exit(exitCode);
-   }
-	
-   public Integer call() throws Exception {
+    }
 
-      String https_url = "https://www.google.com/";
-      URL url;
-
-	     url = new URL(https_url);
-	     HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
+    public Integer call() throws Exception {
+       HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 			
-	     //dumpl all cert info
-	     print_https_cert(con);
+       //dumpl all cert info
+       print_https_cert(con);
 			
-	     //dump all the content
-	     print_content(con);
+       //dump all the content
+       print_content(con);
       
-      return 0;
+       return 0;
    }
 	
    private void print_https_cert(HttpsURLConnection con){
