@@ -24,7 +24,7 @@ The current setup creates Linux and MacOS executables with GitHub Actions, and a
 
 I have been unable to get the Windows build to work in GitHub Actions, I am still trying to fix this. Meanwhile, I added the AppVeyor build to make sure people can build Windows executables.
 
-The current build uses Gradle, I plan to add a Maven build example in the near future.
+This project uses Gradle, see https://github.com/remkop/picocli-native-image-maven-demo[picocli-native-image-maven-demo] for a Maven build example.
 
 == Install Compiler Toolchain
 

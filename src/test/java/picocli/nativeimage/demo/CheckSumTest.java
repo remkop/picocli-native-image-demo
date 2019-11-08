@@ -39,7 +39,7 @@ public class CheckSumTest {
 
     @Test
     public void testDefaultAlgorithm() throws IOException, InterruptedException {
-        File tempFile = CheckSumImageTest.createTempDataFile();
+        File tempFile = NativeImageHelper.createTempDataFile();
 
         PrintStream oldOut = System.out;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -48,9 +48,9 @@ public class CheckSumTest {
             int exitCode = new CommandLine(new CheckSum()).execute(tempFile.getAbsolutePath());
             tempFile.delete();
 
-            String exected = String.format("764efa883dda1e11db47671c4a3bbd9e%n");
+            String expected = String.format("764efa883dda1e11db47671c4a3bbd9e%n");
 
-            assertEquals(exected, baos.toString());
+            assertEquals(expected, baos.toString());
             assertEquals(0, exitCode);
         } finally {
             System.setOut(oldOut);

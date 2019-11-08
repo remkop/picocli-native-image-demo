@@ -24,10 +24,10 @@ class CheckSum implements Callable<Integer> {
     private String algorithm = "MD5";
 
     public static void main(String... args) {
-        boolean windows = System.getProperty("os.name").toLowerCase().startsWith("win");
-        if (windows) { AnsiConsole.systemInstall(); }
-        int exitCode = new CommandLine(new CheckSum()).execute(args);
-        if (windows) { AnsiConsole.systemUninstall(); }
+        int exitCode;
+        try (AnsiConsole ansi = AnsiConsole.windowsInstall()) {
+            exitCode = new CommandLine(new CheckSum()).execute(args);
+        }
         System.exit(exitCode);
     }
 
@@ -35,7 +35,7 @@ class CheckSum implements Callable<Integer> {
     public Integer call() throws Exception { // your business logic goes here...
         byte[] fileContents = Files.readAllBytes(file.toPath());
         byte[] digest = MessageDigest.getInstance(algorithm).digest(fileContents);
-        System.out.printf("%0" + (digest.length*2) + "x%n", new BigInteger(1, digest));
+        System.out.printf("%0" + (digest.length * 2) + "x%n", new BigInteger(1, digest));
         return 0;
     }
 }

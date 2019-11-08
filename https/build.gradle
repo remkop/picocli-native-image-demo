@@ -1,0 +1,70 @@
+//buildscript {
+//    repositories {
+//        maven {
+//            url "https://plugins.gradle.org/m2/"
+//        }
+//    }
+//    dependencies {
+//        classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.6.0"
+//    }
+//}
+plugins {
+    id 'java'
+}
+apply plugin: 'com.palantir.graal'
+
+group 'info.picocli'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'info.picocli:picocli:4.0.4'
+    compile 'info.picocli:picocli-jansi-graalvm:1.1.0'
+    compile 'org.fusesource.jansi:jansi:1.18'
+
+    annotationProcessor 'info.picocli:picocli-codegen:4.0.4'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+}
+
+compileJava {
+    options.compilerArgs += [
+            "-Aproject=${project.group}/${project.name}",
+            "-Aother.resource.patterns=testkey.jks"
+    ]
+}
+
+test {
+    useJUnitPlatform()
+}
+if (!System.getProperty("os.name").toLowerCase().startsWith("win")) {
+    test.dependsOn(nativeImage)
+}
+
+File f = new File('https', 'java.security.overrides')
+if (!f.exists()) {
+    logger.log(LogLevel.ERROR, "File not found: " + f.getAbsolutePath())
+}
+
+graal {
+    mainClass 'picocli.nativeimage.demo.https.Demo'
+    outputName 'demo'
+    graalVersion '19.2.1'
+    //option '--static'
+    option '--no-server'
+    option '--enable-all-security-services'
+    option '-H:EnableURLProtocols=http,https'
+    option '-H:+JNI'
+    option "-J-Djava.security.properties=${f.absolutePath}"
+//    option "-J-Djavax.net.ssl.trustStore=~/.gradle/caches/com.palantir.graal/19.2.1/graalvm-ce-19.2.1/jre/lib/security/cacerts"
+//    option '--report-unsupported-elements-at-runtime'
+}

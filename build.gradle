@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     compile 'info.picocli:picocli:4.0.4'
-    compile 'info.picocli:picocli-jansi-graalvm:1.0.0'
+    compile 'info.picocli:picocli-jansi-graalvm:1.1.0'
     compile 'org.fusesource.jansi:jansi:1.18'
 
     annotationProcessor 'info.picocli:picocli-codegen:4.0.4'
@@ -37,7 +37,10 @@ dependencies {
 }
 
 compileJava {
-    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+    options.compilerArgs += [
+            "-Aproject=${project.group}/${project.name}",
+            "-Aother.resource.patterns=testkey.jks"
+    ]
 }
 
 test {
@@ -46,11 +49,8 @@ test {
 test.dependsOn(nativeImage)
 
 graal {
-    mainClass 'picocli.nativeimage.demo.Demo'
-    outputName 'demo'
+    mainClass 'picocli.nativeimage.demo.CheckSum'
+    outputName 'checksum'
     graalVersion '19.2.1'
     //option '--static'
-    option '-J-Djava.security.properties=java.security.overrides'
-    option '--enable-all-security-services'
-    option '--report-unsupported-elements-at-runtime'
 }
