@@ -1,6 +1,5 @@
 package picocli.nativeimage.demo.https;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
@@ -37,7 +36,6 @@ public class SimpleHttpsServerImageTest {
         assertEquals(0, process.exitValue());
     }
 
-    @Ignore
     @DisabledOnOs(OS.WINDOWS)
     @Tag("native-image")
     @Test
