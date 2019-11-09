@@ -41,12 +41,12 @@ import java.util.concurrent.Callable;
  * keytool -genkeypair -keyalg RSA -alias selfsigned -keystore testkey.jks -storepass password -validity 360 -keysize 2048
  * </pre>
  */
-@Command(name = "httpsget", mixinStandardHelpOptions = true,
+@Command(name = "https-client", mixinStandardHelpOptions = true,
         version = "httpsget 4.0",
         description = "Uses https protocol to get a remote resource.")
-public class HttpsClient implements Callable<Integer> {
+public class SimpleHttpsClient implements Callable<Integer> {
 
-    private static final String DEFAULT_URL = "https://raw.githubusercontent.com/remkop/picocli-native-image-demo/master/java.security.overrides";
+    private static final String DEFAULT_URL = "https://raw.githubusercontent.com/remkop/picocli-native-image-demo/master/https/java.security.overrides";
 
     @Parameters(description = "The URL to download", defaultValue = DEFAULT_URL)
     String url;
@@ -69,7 +69,7 @@ public class HttpsClient implements Callable<Integer> {
     public static void main(String[] args) {
         int exitCode;
         try (AnsiConsole console = AnsiConsole.windowsInstall()) {
-            exitCode = new CommandLine(new HttpsClient()).execute(args);
+            exitCode = new CommandLine(new SimpleHttpsClient()).execute(args);
         }
         System.exit(exitCode);
     }

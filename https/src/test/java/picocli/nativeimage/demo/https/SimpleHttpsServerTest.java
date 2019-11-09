@@ -20,7 +20,7 @@ public class SimpleHttpsServerTest {
             new CommandLine(new SimpleHttpsServer()).execute("--help");
 
             String expected = String.format("" +
-                    "Usage: start-server [-dhvV] [--stay-alive] [-p=<port>]%n" +
+                    "Usage: https-server [-dhvV] [--stay-alive] [-p=<port>]%n" +
                     "Starts a HTTPS server running on the specified port.%n" +
                     "  -d, --debug         Print debug information.%n" +
                     "  -h, --help          Show this help message and exit.%n" +
@@ -49,7 +49,7 @@ public class SimpleHttpsServerTest {
             // client request
             baos = new ByteArrayOutputStream();
             System.setOut(new PrintStream(baos));
-            new CommandLine(new HttpsClient()).execute("--use-local-keystore", "https://localhost:7999");
+            new CommandLine(new SimpleHttpsClient()).execute("--use-local-keystore", "https://localhost:7999");
 
             String clientOutput = String.format("" +
                     "Response Code : 200%n" +

@@ -20,10 +20,10 @@ public class SimpleHttpsServerImageTest {
     @Tag("native-image")
     @Test
     public void testUsageHelp() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "start-server", "--help").start();
+        Process process = new ProcessBuilder(executable, "https-server", "--help").start();
 
         String expected = String.format("" +
-                "Usage: demo start-server [-dhvV] [--stay-alive] [-p=<port>]%n" +
+                "Usage: demo https-server [-dhvV] [--stay-alive] [-p=<port>]%n" +
                 "Starts a HTTPS server running on the specified port.%n" +
                 "  -d, --debug         Print debug information.%n" +
                 "  -h, --help          Show this help message and exit.%n" +
@@ -42,18 +42,22 @@ public class SimpleHttpsServerImageTest {
     @Tag("native-image")
     @Test
     public void testHttps() throws IOException, InterruptedException {
-        Process server = new ProcessBuilder(executable, "start-server", "--stay-alive").start();
 
-        String expected = String.format("Server started OK on port 8000%n");
-        assertEquals(expected, getStdOut(server));
-        //assertEquals("", getStdErr(server));
+        int port = 8000;
+
+        System.out.println("Starting https-server...");
+        Process server = new ProcessBuilder(executable, "https-server", "--stay-alive", "-p=" + port).start();
+        System.out.println("Started https-server OK.");
+
 
         Process client = new ProcessBuilder(executable,
-                "httpsget", "--use-local-keystore", "https://localhost:8000").start();
+                "https-client", "--use-local-keystore", "https://localhost:" + port).start();
+        System.out.println("Started https-client OK.");
 
+        String cipherSuite = "TLS_RSA_WITH_AES_256_CBC_SHA256"; // TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 with SunEC
         String clientOutput = String.format("" +
                 "Response Code : 200%n" +
-                "Cipher Suite : TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384%n" +
+                "Cipher Suite : %s%n" +
                 "%n" +
                 "Cert Type : X.509%n" +
                 "Cert Hash Code : -2137823083%n" +
@@ -61,12 +65,22 @@ public class SimpleHttpsServerImageTest {
                 "Cert Public Key Format : X.509%n" +
                 "%n" +
                 "****** Content of the URL ********%n" +
-                "You asked for /; This is the response%n");
+                "You asked for /; This is the response%n", cipherSuite);
         client.waitFor(10, TimeUnit.SECONDS);
         assertEquals(clientOutput, getStdOut(client));
         assertEquals("", getStdErr(client));
         assertEquals(0, client.exitValue());
-        
+
+        System.out.println("Client response OK");
+
+        //assertEquals("", getStdErr(server));
+        //System.out.println("Received no standard err from server.");
+        //
+        //String expected = String.format("Server started OK on port %d%n", port);
+        //assertEquals(expected, getStdOut(server));
+        //
+        //System.out.println("Received standard out from server.");
+
         server.destroy();
     }
 }

@@ -48,7 +48,7 @@ import picocli.jansi.graalvm.AnsiConsole;
  * keytool -genkeypair -keyalg RSA -alias selfsigned -keystore testkey.jks -storepass password -validity 360 -keysize 2048
  * </pre>
  */
-@Command(name = "start-server", mixinStandardHelpOptions = true,
+@Command(name = "https-server", mixinStandardHelpOptions = true,
         version = "simple https server 1.0",
         description = "Starts a HTTPS server running on the specified port.")
 public class SimpleHttpsServer implements Callable<Integer> {

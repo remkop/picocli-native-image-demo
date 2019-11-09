@@ -11,7 +11,7 @@ import java.io.StringWriter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HttpsClientTest {
+public class SimpleHttpsClientTest {
     
     @Test
     public void testResponseForDefaultUrl() {
@@ -19,7 +19,7 @@ public class HttpsClientTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             System.setOut(new PrintStream(baos));
-            new CommandLine(new HttpsClient()).execute();
+            new CommandLine(new SimpleHttpsClient()).execute();
             
             String expected = String.format("" +
                     "Response Code : 200%n" +
@@ -50,7 +50,7 @@ public class HttpsClientTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             System.setOut(new PrintStream(baos));
-            int exitCode = new CommandLine(new HttpsClient()).execute("--no-certificates");
+            int exitCode = new CommandLine(new SimpleHttpsClient()).execute("--no-certificates");
 
             String expected = String.format("" +
                     "****** Content of the URL ********%n" +
@@ -70,7 +70,7 @@ public class HttpsClientTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             System.setOut(new PrintStream(baos));
-            int exitCode = new CommandLine(new HttpsClient()).execute("--no-certificates", "--headers");
+            int exitCode = new CommandLine(new SimpleHttpsClient()).execute("--no-certificates", "--headers");
 
             String actual = baos.toString();
             assertTrue(actual.contains("null: [HTTP/1.1 200 OK]"));
@@ -118,11 +118,11 @@ public class HttpsClientTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             System.setErr(new PrintStream(baos));
-            int exitCode = new CommandLine(new HttpsClient()).execute("--xxx");
+            int exitCode = new CommandLine(new SimpleHttpsClient()).execute("--xxx");
 
             String expected = String.format("" +
                     "Unknown option: '--xxx'%n" +
-                    "Usage: httpsget [-chHV] [--use-local-keystore] <url>%n" +
+                    "Usage: https-client [-chHV] [--use-local-keystore] <url>%n" +
                     "Uses https protocol to get a remote resource.%n" +
                     "      <url>                  The URL to download%n" +
                     "  -c, --[no-]certificates    Show server certificates (true by default)%n" +

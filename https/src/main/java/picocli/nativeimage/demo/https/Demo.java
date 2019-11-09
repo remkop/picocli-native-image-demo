@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 @Command(name = "demo", mixinStandardHelpOptions = true,
         version = "demo 4.0",
         subcommands = {
-                HttpsClient.class,
+                SimpleHttpsClient.class,
                 SimpleHttpsServer.class,
                 HelpCommand.class},
         description = "Demonstrates picocli-based HTTPS native image applications.")
