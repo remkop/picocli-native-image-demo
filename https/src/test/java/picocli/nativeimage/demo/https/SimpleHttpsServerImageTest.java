@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static picocli.nativeimage.demo.https.NativeImageHelper.executable;
 import static picocli.nativeimage.demo.https.NativeImageHelper.getStdErr;
 import static picocli.nativeimage.demo.https.NativeImageHelper.getStdOut;
@@ -43,14 +46,18 @@ public class SimpleHttpsServerImageTest {
 
         int port = 8000;
 
-        System.out.println("Starting https-server...");
+        System.out.println("Starting https-server process...");
         Process server = new ProcessBuilder(executable, "https-server", "--stay-alive", "-p=" + port).start();
-        System.out.println("Started https-server OK.");
-
+        assertTrue(server.isAlive(), "https-server process must be alive after it is started");
+        System.out.println("Started https-server process OK.");
 
         Process client = new ProcessBuilder(executable,
                 "https-client", "--use-local-keystore", "https://localhost:" + port).start();
-        System.out.println("Started https-client OK.");
+        assertTrue(client.isAlive(), "https-client process must be alive after it is started");
+        System.out.println("Started https-client process OK.");
+
+        client.waitFor(20, TimeUnit.SECONDS);
+        assertFalse(client.isAlive(), "https-client process must not be alive after 20 seconds");
 
         String cipherSuite = "TLS_RSA_WITH_AES_256_CBC_SHA256"; // TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 with SunEC
         String clientOutput = String.format("" +
@@ -64,7 +71,6 @@ public class SimpleHttpsServerImageTest {
                 "%n" +
                 "****** Content of the URL ********%n" +
                 "You asked for /; This is the response%n", cipherSuite);
-        client.waitFor(10, TimeUnit.SECONDS);
         assertEquals(clientOutput, getStdOut(client));
         assertEquals("", getStdErr(client));
         assertEquals(0, client.exitValue());
