@@ -32,6 +32,7 @@ class CheckSumImageTest {
         assertEquals("", getStdErr(process));
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(0, process.exitValue());
+        process.destroyForcibly();
     }
 
     @Tag("native-image")
@@ -45,6 +46,7 @@ class CheckSumImageTest {
         assertEquals("", getStdErr(process));
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(0, process.exitValue());
+        process.destroyForcibly();
     }
 
     @Tag("native-image")
@@ -61,6 +63,7 @@ class CheckSumImageTest {
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(0, process.exitValue());
         tempFile.delete();
+        process.destroyForcibly();
     }
 
     @Tag("native-image")
@@ -77,6 +80,7 @@ class CheckSumImageTest {
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(0, process.exitValue());
         tempFile.delete();
+        process.destroyForcibly();
     }
 
     @Tag("native-image")
@@ -93,6 +97,7 @@ class CheckSumImageTest {
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(0, process.exitValue());
         tempFile.delete();
+        process.destroyForcibly();
     }
 
     @Tag("native-image")
@@ -113,6 +118,7 @@ class CheckSumImageTest {
         assertEquals("", getStdOut(process));
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(2, process.exitValue());
+        process.destroyForcibly();
     }
 
     @Tag("native-image")
@@ -133,6 +139,7 @@ class CheckSumImageTest {
         assertEquals("", getStdOut(process));
         process.waitFor(3, TimeUnit.SECONDS);
         assertEquals(2, process.exitValue());
+        process.destroyForcibly();
     }
 
 }
