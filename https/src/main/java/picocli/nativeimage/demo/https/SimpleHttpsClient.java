@@ -142,6 +142,15 @@ public class SimpleHttpsClient implements Callable<Integer> {
 
     private SSLSocketFactory customSSLSocketFactory() throws NoSuchAlgorithmException,
             KeyStoreException, KeyManagementException, IOException, CertificateException {
+        X509TrustManager customTM = selfSignedTrustManager();
+        X509TrustManager defaultTM = defaultTrustManager();
+        SSLContext context = SSLContext.getInstance("TLS");
+        context.init(null, new TrustManager[] {customTM, defaultTM}, null);
+        SSLSocketFactory factory = context.getSocketFactory();
+        return factory;
+    }
+
+    private X509TrustManager selfSignedTrustManager() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
         KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
         char[] password = "password".toCharArray();
         URL keystore = getClass().getResource("/testkey.jks");
@@ -150,13 +159,18 @@ public class SimpleHttpsClient implements Callable<Integer> {
         }
         ks.load(keystore.openStream(), password);
 
-        SSLContext context = SSLContext.getInstance("TLS");
         TrustManagerFactory tmf =
                 TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         tmf.init(ks);
-        X509TrustManager defaultTrustManager = (X509TrustManager)tmf.getTrustManagers()[0];
-        context.init(null, new TrustManager[] {defaultTrustManager}, null);
-        SSLSocketFactory factory = context.getSocketFactory();
-        return factory;
+        return (X509TrustManager) tmf.getTrustManagers()[0];
+    }
+
+    // get certificates from $JAVA_HOME/jre/lib/security/cacerts
+    private X509TrustManager defaultTrustManager() throws NoSuchAlgorithmException, KeyStoreException {
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("PKIX");
+        trustManagerFactory.init((KeyStore) null);
+        TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+        X509TrustManager trustManager = (X509TrustManager) trustManagers[0];
+        return trustManager;
     }
 }

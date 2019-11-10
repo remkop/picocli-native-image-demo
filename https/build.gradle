@@ -65,6 +65,7 @@ graal {
     option '-H:EnableURLProtocols=http,https'
     option '-H:+JNI'
     option "-J-Djava.security.properties=${f.absolutePath}"
+    option "-J-Djavax.net.ssl.trustStore=~/.gradle/caches/com.palantir.graal/19.2.1/graalvm-ce-19.2.1/jre/lib/security/cacerts"
 //    option "-J-Djavax.net.ssl.trustStore=~/.gradle/caches/com.palantir.graal/19.2.1/graalvm-ce-19.2.1/jre/lib/security/cacerts"
 //    option '--report-unsupported-elements-at-runtime'
 }
