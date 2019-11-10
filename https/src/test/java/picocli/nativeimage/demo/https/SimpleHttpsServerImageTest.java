@@ -58,10 +58,12 @@ public class SimpleHttpsServerImageTest {
         System.out.println("Started https-client process OK.");
 
         client.waitFor(30, TimeUnit.SECONDS);
+        System.out.println(client.isAlive());
         //assertFalse(client.isAlive(), "https-client process must not be alive after 20 seconds");
 
         String cipherSuite = "TLS_RSA_WITH_AES_256_CBC_SHA256"; // TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 with SunEC
         String altCiphersuite = "TLS_AES_128_GCM_SHA256";
+
         String expectedPrefix = String.format("" +
                 "Response Code : 200%n" +
                 "Cipher Suite : "); // asserting on cipher suite makes test fragile
