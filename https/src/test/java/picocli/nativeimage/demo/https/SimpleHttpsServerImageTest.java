@@ -59,7 +59,8 @@ public class SimpleHttpsServerImageTest {
 
         client.waitFor(30, TimeUnit.SECONDS);
         System.out.println(client.isAlive());
-        //assertFalse(client.isAlive(), "https-client process must not be alive after 20 seconds");
+        client.destroy();
+        assertFalse(client.isAlive(), "https-client process must not be alive after 20 seconds");
 
         String cipherSuite = "TLS_RSA_WITH_AES_256_CBC_SHA256"; // TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 with SunEC
         String altCiphersuite = "TLS_AES_128_GCM_SHA256";
