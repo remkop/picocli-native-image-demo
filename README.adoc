@@ -24,7 +24,6 @@ The main project builds a `checksum` executable.
 This is a picocli-based command line application. 
 On Windows it uses Jansi to show colors on the console and the `picocli-jansi-graalvm` library to enable the Jansi library for GraalVM native applications. 
 
-
 === HTTPS
 
 There is also a `https` subproject that builds a `demo` native executable with `https-client` and `https-server` subcommands to demonstrate HTTPS TSL client and server applications.
@@ -35,6 +34,12 @@ The https subproject also demonstrates that it is possible to build native TSL a
 This can be achieved by specifying a `-J-Djava.security.properties=/full/path/to/java.security.overrides` option when building the native image.
 The specified `java.security.overrides` file contains an entry for `security.provider.3` with a non-existing value.
 This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
+
+=== Windows Note
+
+The Windows executables created with GraalVM depend on the `msvcr100.dll` native library. 
+When distributing your native Windows executable you may want to include `msvcr100.dll` (from `C:\Windows\System32`) or ask your users to get it from Microsoft by installing the VS C++ Redistributable 2010.
+
 
 == Cross Compilation 
 
@@ -83,27 +88,4 @@ The plugin has https://github.com/palantir/gradle-graal/pull/127[support for Win
 
 This makes your Gradle setup very simple. See the project https://github.com/remkop/picocli-native-image-demo/blob/master/build.gradle[build.gradle].
 
-
-== Building Native Images Manually
-
-CAUTION: Below is work in progress
-
-=== Instructions for Windows
-
-* Install Java 8
-* Install Git for Windows
-* Install https://chocolatey.org/docs/installation[Chocolatey]
-* Get the Microsoft Windows SDK for Windows 7 and .NET Framework 4 (ISO): https://www.microsoft.com/en-us/download/details.aspx?id=8442
-
-----
-choco install windows-sdk-7.1 kb2519277
-----
-
-Then (from the `cmd` prompt), activate the sdk-7.1 environment:
-
-----
-call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
-----
-
-You will need to add `msvcr100.dll` (from `C:\Windows\System32`) from VS C++ Redistributable 2010.
 
