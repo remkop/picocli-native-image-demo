@@ -32,11 +32,14 @@ On Windows it uses Jansi to show colors on the console and the `picocli-jansi-gr
 
 === HTTPS
 
-There is also a `https` subproject that demonstrates a HTTPS TSL client and server application. The server uses a self-signed certificate. 
+There is also a `https` subproject that builds a `demo` native executable with `https-client` and `https-server` subcommands to demonstrate HTTPS TSL client and server applications.
+The server uses a self-signed certificate. 
 
-This subproject also demonstrates that it is possible to build native TSL applications with GraalVM that work without the `sunec.so` or `sunec.dll` library.
+The https subproject also demonstrates that it is possible to build native TSL applications with GraalVM that work without the `sunec.so` or `sunec.dll` library.
 
-This can be achieved by specifying a `-J-Djava.security.properties=/full/path/to/java.security.overrides` option when building the native image. This `java.security.overrides` file contains an entry for `security.provider.3` with a non-existing value. This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
+This can be achieved by specifying a `-J-Djava.security.properties=/full/path/to/java.security.overrides` option when building the native image.
+The specified `java.security.overrides` file contains an entry for `security.provider.3` with a non-existing value.
+This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
 
 == Install Compiler Toolchain
 
