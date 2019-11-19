@@ -29,13 +29,13 @@ On Windows it uses Jansi to show colors on the console and the `picocli-jansi-gr
 There is also a `https` subproject that builds a `demo` native executable with `https-client` and `https-server` subcommands to demonstrate HTTPS TSL client and server applications.
 The server uses a self-signed certificate. 
 
-The https subproject also demonstrates that it is possible to build native TSL applications with GraalVM that work without the `sunec.so` or `sunec.dll` library.
+The https subproject also demonstrates that it is possible to build native TSL applications with GraalVM that work without the `libsunec.so` or `sunec.dll` library.
 
 This can be achieved by specifying a `-J-Djava.security.properties=/full/path/to/java.security.overrides` option when building the native image.
 The specified `java.security.overrides` file contains an entry for `security.provider.3` with a non-existing value.
-This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
+This disables the SunEC elliptical curve encryption provider, which would have required the `libsunec.so` or `sunec.dll` native library.
 
-=== Windows Note
+== Windows Note
 
 The Windows executables created with GraalVM depend on the `msvcr100.dll` native library. 
 When distributing your native Windows executable you may want to include `msvcr100.dll` (from `C:\Windows\System32`) or ask your users to get it from Microsoft by installing the VS C++ Redistributable 2010.
