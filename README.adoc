@@ -84,7 +84,7 @@ This starts a new Command Prompt, with the sdk-7.1 environment enabled. All subs
 
 The Gradle build uses the wonderful https://github.com/palantir/gradle-graal[gradle-graal plugin] from Palantir. This plugin will download the GraalVM JDK and unzip it and build with that. 
 
-The plugin has https://github.com/palantir/gradle-graal/pull/127[support for Windows], and it will take care of calling `call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"` to ensure the `native-image` generation is done after the windows-sdk-7.1 environment is set up.
+The plugin has https://github.com/palantir/gradle-graal/pull/127[support for Windows], and it will take care of calling `call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"` to ensure the windows-sdk-7.1 environment is set up before the `native-image` generation tool is invoked.
 
 This makes your Gradle setup very simple. See the project https://github.com/remkop/picocli-native-image-demo/blob/master/build.gradle[build.gradle].
 
