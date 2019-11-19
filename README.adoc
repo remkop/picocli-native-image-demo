@@ -41,6 +41,15 @@ The Windows executables created with GraalVM depend on the `msvcr100.dll` native
 When distributing your native Windows executable you may want to include `msvcr100.dll` (from `C:\Windows\System32`) or ask your users to get it from Microsoft by installing the VS C++ Redistributable 2010.
 
 
+== Testing Native Images
+
+This project uses JUnit 5 for testing.
+It has a unit test that is run before the JAR file is created, and an integration test that is run after the native image is generated.
+
+The integration test is tagged with `@org.junit.jupiter.api.Tag("native-image")`,
+and this tag is used in the Maven Surefire and Maven Failsafe plugins to ensure that only the unit tests run before the JAR is created,
+and only the integration tests are run after the native image has been generated.
+
 == Cross Compilation 
 
 GraalVM does not have cross-compile support for native images https://github.com/oracle/graal/issues/407[yet], so at the moment you need to compile on Windows to get a Windows executable, compile on Linux to get a Linux executable, and on MacOS to get a MacOS executable. 
