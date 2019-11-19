@@ -14,11 +14,6 @@ image::https://picocli.info/images/exe-picocli-on-graalvm.png[]
 
 This project shows examples of creating native images for picocli-based Java command line applications that can run as standalone executables on Windows, Linux and MacOS without requiring a JVM to be installed.
 
-GraalVM does not have cross-compile support for native images https://github.com/oracle/graal/issues/407[yet], so at the moment you need to compile on Windows to get a Windows executable, compile on Linux to get a Linux executable, and on MacOS to get a MacOS executable. 
-
-This project shows how to do this with a Continuous Integration setup, using GitHub Actions, AppVeyor and TravisCI.
-The current setup creates Linux and MacOS executables with GitHub Actions, and a Windows executable on AppVeyor and TravisCI. 
-
 This project uses Gradle, see https://github.com/remkop/picocli-native-image-maven-demo[picocli-native-image-maven-demo] for a Maven build example.
 
 == Artifacts
@@ -40,6 +35,13 @@ The https subproject also demonstrates that it is possible to build native TSL a
 This can be achieved by specifying a `-J-Djava.security.properties=/full/path/to/java.security.overrides` option when building the native image.
 The specified `java.security.overrides` file contains an entry for `security.provider.3` with a non-existing value.
 This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
+
+== Cross Compilation 
+
+GraalVM does not have cross-compile support for native images https://github.com/oracle/graal/issues/407[yet], so at the moment you need to compile on Windows to get a Windows executable, compile on Linux to get a Linux executable, and on MacOS to get a MacOS executable. 
+
+This project shows how to do this with a Continuous Integration setup, using GitHub Actions, AppVeyor and TravisCI.
+The current setup creates Linux and MacOS executables with GitHub Actions, and a Windows executable on AppVeyor and TravisCI. 
 
 == Install Compiler Toolchain
 
