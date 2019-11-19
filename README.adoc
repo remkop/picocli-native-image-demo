@@ -17,7 +17,7 @@ This project shows examples of creating native images for picocli-based Java com
 GraalVM does not have cross-compile support for native images https://github.com/oracle/graal/issues/407[yet], so at the moment you need to compile on Windows to get a Windows executable, compile on Linux to get a Linux executable, and on MacOS to get a MacOS executable. 
 
 This project shows how to do this with a Continuous Integration setup, using GitHub Actions, AppVeyor and TravisCI.
-The current setup successfully creates Linux and MacOS executables with GitHub Actions, and a Windows executable on AppVeyor and TravisCI. 
+The current setup creates Linux and MacOS executables with GitHub Actions, and a Windows executable on AppVeyor and TravisCI. 
 
 This project uses Gradle, see https://github.com/remkop/picocli-native-image-maven-demo[picocli-native-image-maven-demo] for a Maven build example.
 
@@ -25,7 +25,10 @@ This project uses Gradle, see https://github.com/remkop/picocli-native-image-mav
 
 === CheckSum
 
-The main project builds a `checksum` executable. 
+The main project builds a `checksum` executable.
+This is a picocli-based command line application. 
+On Windows it uses Jansi to show colors on the console and the `picocli-jansi-graalvm` library to enable the Jansi library for GraalVM native applications. 
+
 
 === HTTPS
 
@@ -33,7 +36,7 @@ There is also a `https` subproject that demonstrates a HTTPS TSL client and serv
 
 This subproject also demonstrates that it is possible to build native TSL applications with GraalVM that work without the `sunec.so` or `sunec.dll` library.
 
-This can be achieved by specifying a `security.properties` file when building the native image. This `security.properties` file contains an entry for `security.provider.3` with a non-existing value. This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
+This can be achieved by specifying a `-J-Djava.security.properties=/full/path/to/java.security.overrides` option when building the native image. This `java.security.overrides` file contains an entry for `security.provider.3` with a non-existing value. This disables the SunEC elliptical curve encryption provider, which would have required the `sunec.so` or `sunec.dll` native library. 
 
 == Install Compiler Toolchain
 
