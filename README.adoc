@@ -44,11 +44,11 @@ When distributing your native Windows executable you may want to include `msvcr1
 == Testing Native Images
 
 This project uses JUnit 5 for testing.
-It has a unit test that is run before the JAR file is created, and an integration test that is run after the native image is generated.
+It has unit tests that can be run before the JAR file is created, and integration tests that can only be run after the native image is generated.
 
-The integration test is tagged with `@org.junit.jupiter.api.Tag("native-image")`,
-and this tag is used in the Maven Surefire and Maven Failsafe plugins to ensure that only the unit tests run before the JAR is created,
-and only the integration tests are run after the native image has been generated.
+The integration tests are tagged with `@org.junit.jupiter.api.Tag("native-image")`.
+
+The Gradle build is configured to create the native image before running any of the tests.
 
 == Cross Compilation 
 
