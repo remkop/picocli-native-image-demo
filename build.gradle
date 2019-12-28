@@ -26,11 +26,11 @@ repositories {
 }
 
 dependencies {
-    compile 'info.picocli:picocli:4.0.4'
+    compile 'info.picocli:picocli:4.1.4'
     compile 'info.picocli:picocli-jansi-graalvm:1.1.0'
     compile 'org.fusesource.jansi:jansi:1.18'
 
-    annotationProcessor 'info.picocli:picocli-codegen:4.0.4'
+    annotationProcessor 'info.picocli:picocli-codegen:4.1.4'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
@@ -51,6 +51,6 @@ test.dependsOn(nativeImage)
 graal {
     mainClass 'picocli.nativeimage.demo.CheckSum'
     outputName 'checksum'
-    graalVersion '19.2.1'
+    graalVersion '19.3.0'
     //option '--static'
 }
