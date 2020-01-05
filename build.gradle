@@ -5,13 +5,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.6.0"
+        //classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.6.0"
+        classpath "gradle.plugin.org.mikeneck:graalvm-native-image-plugin:0.2"
     }
 }
 plugins {
     id 'java'
 }
-apply plugin: 'com.palantir.graal'
+//apply plugin: 'com.palantir.graal'
+apply plugin: "org.mikeneck.graalvm-native-image"
 
 group 'info.picocli'
 version '1.0-SNAPSHOT'
@@ -46,11 +48,25 @@ compileJava {
 test {
     useJUnitPlatform()
 }
-test.dependsOn(nativeImage)
+test.dependsOn(tasks.getByName('nativeImage'))
 
-graal {
-    mainClass 'picocli.nativeimage.demo.CheckSum'
-    outputName 'checksum'
-    graalVersion '19.3.0'
-    //option '--static'
+// config for palantir
+//graal {
+//    mainClass 'picocli.nativeimage.demo.CheckSum'
+//    outputName 'checksum'
+//    graalVersion '19.3.0'
+//    //option '--static'
+//}
+
+// config for org.mikeneck.graalvm-native-image
+nativeImage {
+    graalVmHome = System.getProperty('java.home')
+    mainClass = 'picocli.nativeimage.demo.CheckSum'
+    executableName = 'checksum'
+    arguments(
+            '--no-fallback',
+//            '--enable-all-security-services',
+//            '--initialize-at-run-time=com.example.runtime',
+            '--report-unsupported-elements-at-runtime'
+    )
 }

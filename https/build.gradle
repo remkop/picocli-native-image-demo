@@ -11,7 +11,8 @@
 plugins {
     id 'java'
 }
-apply plugin: 'com.palantir.graal'
+//apply plugin: 'com.palantir.graal'
+apply plugin: "org.mikeneck.graalvm-native-image"
 
 group 'info.picocli'
 version '1.0-SNAPSHOT'
@@ -26,11 +27,11 @@ repositories {
 }
 
 dependencies {
-    compile 'info.picocli:picocli:4.0.4'
+    compile 'info.picocli:picocli:4.1.4'
     compile 'info.picocli:picocli-jansi-graalvm:1.1.0'
     compile 'org.fusesource.jansi:jansi:1.18'
 
-    annotationProcessor 'info.picocli:picocli-codegen:4.0.4'
+    annotationProcessor 'info.picocli:picocli-codegen:4.1.4'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
@@ -47,7 +48,7 @@ test {
     useJUnitPlatform()
 }
 if (!System.getProperty("os.name").toLowerCase().startsWith("win")) {
-    test.dependsOn(nativeImage)
+    test.dependsOn(tasks.getByName('nativeImage'))
 }
 
 File f = new File('https', 'java.security.overrides')
@@ -55,17 +56,33 @@ if (!f.exists()) {
     logger.log(LogLevel.ERROR, "File not found: " + f.getAbsolutePath())
 }
 
-graal {
-    mainClass 'picocli.nativeimage.demo.https.Demo'
-    outputName 'demo'
-    graalVersion '19.2.1'
-    //option '--static'
-    option '--no-server'
-    option '--enable-all-security-services'
-    option '-H:EnableURLProtocols=http,https'
-    option '-H:+JNI'
-    option "-J-Djava.security.properties=${f.absolutePath}"
-    option "-J-Djavax.net.ssl.trustStore=~/.gradle/caches/com.palantir.graal/19.2.1/graalvm-ce-19.2.1/jre/lib/security/cacerts"
+
+// config for palantir
+//graal {
+//    mainClass 'picocli.nativeimage.demo.https.Demo'
+//    outputName 'demo'
+//    graalVersion '19.2.1'
+//    //option '--static'
+//    option '--no-server'
+//    option '--enable-all-security-services'
+//    option '-H:EnableURLProtocols=http,https'
+//    option '-H:+JNI'
+//    option "-J-Djava.security.properties=${f.absolutePath}"
 //    option "-J-Djavax.net.ssl.trustStore=~/.gradle/caches/com.palantir.graal/19.2.1/graalvm-ce-19.2.1/jre/lib/security/cacerts"
-//    option '--report-unsupported-elements-at-runtime'
+////    option "-J-Djavax.net.ssl.trustStore=~/.gradle/caches/com.palantir.graal/19.2.1/graalvm-ce-19.2.1/jre/lib/security/cacerts"
+////    option '--report-unsupported-elements-at-runtime'
+//}
+
+// config for org.mikeneck.graalvm-native-image
+nativeImage {
+    graalVmHome = System.getProperty('java.home')
+    mainClass = 'picocli.nativeimage.demo.https.Demo'
+    executableName = 'demo'
+    arguments(
+            '--no-server',
+            '--no-fallback',
+            '--enable-all-security-services',
+            '-H:EnableURLProtocols=http,https',
+            '--report-unsupported-elements-at-runtime'
+    )
 }
