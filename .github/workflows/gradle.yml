@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build-ubuntu-mac:
-
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -14,7 +13,7 @@ jobs:
     - uses: actions/checkout@latest
     - uses: DeLaGuardo/setup-graalvm@2.0
       with:
-        graalvm-version: '19.3.0.2.java11' // GraalVM version, no pattern syntax available atm.
+        graalvm-version: '19.3.0.2.java11'
     - run: java -version
     - name: Build with Gradle
       run: ./gradlew build
