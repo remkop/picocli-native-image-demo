@@ -26,7 +26,7 @@ before_install:
   - mkdir -p $HOME/.sdkman/etc/
   - echo sdkman_auto_answer=true > $HOME/.sdkman/etc/config
   - echo sdkman_auto_selfupdate=true >> $HOME/.sdkman/etc/config
-  - source "/home/travis/.sdkman/bin/sdkman-init.sh"
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 install:
   - sdk current java
