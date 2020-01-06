@@ -31,7 +31,7 @@ before_install:
 install:
   - sdk current java
   - echo $JAVA_HOME
-  - sdk install java 19.3.0.2.r11-grl
+  - sdk current java | grep '19.3.0.2.r11-grl' || sdk install java 19.3.0.2.r11-grl
   - gu install native-image
   - native-image --version
   - env
