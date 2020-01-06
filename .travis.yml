@@ -2,22 +2,22 @@ language: java
 jdk:
   - openjdk11
 
-os:
-  - linux
-  - osx
-  - windows
+#os:
+#  - linux
+#  - osx
+#  - windows
 
-#jobs:
-#  include:
-#    - os: linux
-#      env: JRE=
-#    - os: osx
-#      env: JRE=
-#    - os: windows
-#      language: shell
-#      env: JAVA_HOME=c:/java8 JRE=jre/
-#      #env: JAVA_HOME=c:/java11
-##      env: JAVA_HOME="c:\Program Files\Java\jdk1.8.0_231"
+jobs:
+  include:
+    - os: linux
+      env: JRE=
+    - os: osx
+      env: JRE=
+    - os: windows
+      language: shell
+      env: JRE=jre/
+      #env: JAVA_HOME=c:/java11
+#      env: JAVA_HOME="c:\Program Files\Java\jdk1.8.0_231"
 
 before_install:
   # adding $HOME/.sdkman to cache would create an empty directory, which interferes with the initial installation
@@ -26,8 +26,9 @@ before_install:
   - mkdir -p "$HOME/.sdkman/etc/"
   - echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
   - echo sdkman_auto_selfupdate=true >> "$HOME/.sdkman/etc/config"
+  - ls "$HOME/.sdkman"
   - ls "$HOME/.sdkman/bin"
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  - "[[ -f $HOME/.sdkman/bin/sdkman-init.sh ]] && source $HOME/.sdkman/bin/sdkman-init.sh"
 
 install:
   - sdk current java
