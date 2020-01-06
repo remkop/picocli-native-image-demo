@@ -23,9 +23,10 @@ before_install:
   # adding $HOME/.sdkman to cache would create an empty directory, which interferes with the initial installation
   - "[[ -d /home/travis/.sdkman/ ]] && [[ -d /home/travis/.sdkman/bin/ ]] || rm -rf /home/travis/.sdkman/"
   - curl -sL https://get.sdkman.io | bash
-  - mkdir -p $HOME/.sdkman/etc/
-  - echo sdkman_auto_answer=true > $HOME/.sdkman/etc/config
-  - echo sdkman_auto_selfupdate=true >> $HOME/.sdkman/etc/config
+  - mkdir -p "$HOME/.sdkman/etc/"
+  - echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
+  - echo sdkman_auto_selfupdate=true >> "$HOME/.sdkman/etc/config"
+  - ls "$HOME/.sdkman/bin"
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 install:
@@ -34,8 +35,9 @@ install:
   - sdk current java | grep '19.3.0.2.r11-grl' || sdk install java 19.3.0.2.r11-grl
   - gu install native-image
   - native-image --version
-  - env
+#  - env
   - echo $JAVA_HOME
+  - ls $JAVA_HOME/bin/
 
 before_script:
   - chmod +x gradlew
@@ -43,7 +45,7 @@ before_script:
 
 script:
   - ./gradlew --version
-  - ./gradlew -Djavax.net.ssl.trustStore=$JAVA_HOME/${JRE}lib/security/cacerts clean check --debug
+  - ./gradlew -Djavax.net.ssl.trustStore=$JAVA_HOME/${JRE}lib/security/cacerts clean check
   - if [ $TRAVIS_OS_NAME  = windows ]; then "$JAVA_HOME/bin/jar.exe" -cMvf build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum.exe ; fi
   - if [ $TRAVIS_OS_NAME != windows ]; then zip -v build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum ; fi
 
