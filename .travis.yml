@@ -32,15 +32,18 @@ install:
   - sdk install java 19.3.0.2.r11-grl
   - gu install native-image
   - native-image --version
+  - env
+  - echo $JAVA_HOME
 
 before_script:
   - chmod +x gradlew
   - if [ $TRAVIS_OS_NAME = windows ]; then call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" ; fi
 
 script:
+  - .gradlew --version
   - ./gradlew -Djavax.net.ssl.trustStore=$JAVA_HOME/${JRE}lib/security/cacerts clean check --debug
-  - if [ $TRAVIS_OS_NAME  = windows ]; then "$JAVA_HOME/bin/jar.exe" -cMvf build/graal/checksum-$TRAVIS_OS_NAME.zip build/graal/checksum.exe ; fi
-  - if [ $TRAVIS_OS_NAME != windows ]; then zip -v build/graal/checksum-$TRAVIS_OS_NAME.zip build/graal/checksum ; fi
+  - if [ $TRAVIS_OS_NAME  = windows ]; then "$JAVA_HOME/bin/jar.exe" -cMvf build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum.exe ; fi
+  - if [ $TRAVIS_OS_NAME != windows ]; then zip -v build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum ; fi
 
 # Deploy the resulting artifact to GitHub Releases
 #deploy:
