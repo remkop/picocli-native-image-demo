@@ -27,6 +27,7 @@ before_install:
   - echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
   - echo sdkman_auto_selfupdate=true >> "$HOME/.sdkman/etc/config"
   - ls "$HOME/.sdkman"
+  - sdk selfupdate force
   #- "test -f $HOME/.sdkman/bin/sdkman-init.sh && source $HOME/.sdkman/bin/sdkman-init.sh"
 
 install:
@@ -59,11 +60,11 @@ script:
 #    tags: true
 
 # avoid uploading the cache after every build
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.sdkman
+#before_cache:
+#  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+#  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+#cache:
+#  directories:
+#    - $HOME/.gradle/caches/
+#    - $HOME/.gradle/wrapper/
+#    - $HOME/.sdkman
