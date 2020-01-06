@@ -27,7 +27,7 @@ before_install:
   - echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
   - echo sdkman_auto_selfupdate=true >> "$HOME/.sdkman/etc/config"
   - ls "$HOME/.sdkman"
-  - [[ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+  - "test -f $HOME/.sdkman/bin/sdkman-init.sh && source $HOME/.sdkman/bin/sdkman-init.sh"
 
 install:
   - sdk current java
