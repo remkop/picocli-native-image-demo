@@ -6,7 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 class NativeImageHelper {
-    static final String executable = "build/graal/demo" + extension();
+    static String executable() {
+        return executableLocation() + "/demo" + extension();
+    }
+
+    private static String executableLocation() {
+        return System.getProperty("executable-location", "build/native-image");
+    }
 
     private static String extension() {
         return System.getProperty("os.name").toLowerCase().startsWith("win") ? ".exe" : "";

@@ -23,7 +23,7 @@ public class SimpleHttpsServerImageTest {
     @Tag("native-image")
     @Test
     public void testUsageHelp() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "https-server", "--help").start();
+        Process process = new ProcessBuilder(executable(), "https-server", "--help").start();
 
         String expected = String.format("" +
                 "Usage: demo https-server [-dhvV] [--stay-alive] [-p=<port>]%n" +
@@ -49,11 +49,11 @@ public class SimpleHttpsServerImageTest {
         int port = 8000;
 
         System.out.println("Starting https-server process...");
-        Process server = new ProcessBuilder(executable, "https-server", "--stay-alive", "-p=" + port).start();
+        Process server = new ProcessBuilder(executable(), "https-server", "--stay-alive", "-p=" + port).start();
         assertTrue(server.isAlive(), "https-server process must be alive after it is started");
         System.out.println("Started https-server process OK.");
 
-        Process client = new ProcessBuilder(executable,
+        Process client = new ProcessBuilder(executable(),
                 "https-client", "--use-local-keystore", "https://localhost:" + port).start();
         assertTrue(client.isAlive(), "https-client process must be alive after it is started");
         System.out.println("Started https-client process OK.");
