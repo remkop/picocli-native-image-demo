@@ -18,7 +18,7 @@ class CheckSumImageTest {
     @Tag("native-image")
     @Test
     public void testUsageHelp() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "--help").start();
+        Process process = new ProcessBuilder(executable(), "--help").start();
 
         String expected = String.format("" +
                 "Usage: checksum [-hV] [-a=<algorithm>] <file>%n" +
@@ -38,7 +38,7 @@ class CheckSumImageTest {
     @Tag("native-image")
     @Test
     public void testVersionInfo() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "--version").start();
+        Process process = new ProcessBuilder(executable(), "--version").start();
 
         String expected = String.format("checksum 4.0%n"); // JVM: 1.8.0_222 (Oracle Corporation Substrate VM GraalVM dev)
 
@@ -54,7 +54,7 @@ class CheckSumImageTest {
     public void testDefaultAlgorithm() throws IOException, InterruptedException {
         File tempFile = createTempDataFile();
 
-        Process process = new ProcessBuilder(executable, tempFile.getAbsolutePath()).start();
+        Process process = new ProcessBuilder(executable(), tempFile.getAbsolutePath()).start();
 
         String expected = String.format("764efa883dda1e11db47671c4a3bbd9e%n");
 
@@ -71,7 +71,7 @@ class CheckSumImageTest {
     public void testMd5Algorithm() throws IOException, InterruptedException {
         File tempFile = createTempDataFile();
 
-        Process process = new ProcessBuilder(executable, "-a", "md5", tempFile.getAbsolutePath()).start();
+        Process process = new ProcessBuilder(executable(), "-a", "md5", tempFile.getAbsolutePath()).start();
 
         String expected = String.format("764efa883dda1e11db47671c4a3bbd9e%n");
 
@@ -88,7 +88,7 @@ class CheckSumImageTest {
     public void testSha1Algorithm() throws IOException, InterruptedException {
         File tempFile = createTempDataFile();
 
-        Process process = new ProcessBuilder(executable, "-a", "sha1", tempFile.getAbsolutePath()).start();
+        Process process = new ProcessBuilder(executable(), "-a", "sha1", tempFile.getAbsolutePath()).start();
 
         String expected = String.format("55ca6286e3e4f4fba5d0448333fa99fc5a404a73%n");
 
@@ -103,7 +103,7 @@ class CheckSumImageTest {
     @Tag("native-image")
     @Test
     public void testInvalidInput_MissingRequiredArg() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable).start();
+        Process process = new ProcessBuilder(executable()).start();
 
         String expected = String.format("" +
                 "Missing required parameter: <file>%n" +
@@ -124,7 +124,7 @@ class CheckSumImageTest {
     @Tag("native-image")
     @Test
     public void testInvalidInput_UnknownOption() throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(executable, "file", "--unknown").start();
+        Process process = new ProcessBuilder(executable(), "file", "--unknown").start();
 
         String expected = String.format("" +
                 "Unknown option: '--unknown'%n" +
