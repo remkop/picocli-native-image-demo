@@ -11,11 +11,11 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - uses: actions/checkout@latest
+    - uses: DeLaGuardo/setup-graalvm@2.0
       with:
-        java-version: 1.8
+        graalvm-version: '19.3.0.2.java11' // GraalVM version, no pattern syntax available atm.
+    - run: java -version
     - name: Build with Gradle
       run: ./gradlew build
     - name: Rename the artifact to OS-unique name
@@ -37,38 +37,14 @@ jobs:
         os: [windows-2016, windows-latest]
 
     steps:
-      - uses: actions/checkout@v1
-      - name: List Chocolatey Installed Packages
-        continue-on-error: true
-        run: |
-          choco list --local-only
-      - name: Uninstall vcredist140 via Choco
-        continue-on-error: true
-        run: |
-          choco uninstall openssl.light php
-          choco uninstall vcredist140
-      - name: Print Installed MS VC++ Redistributables via Get-ItemProperty
-        shell: powershell
-        run: Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*" | Where {$_.DisplayName -clike 'Microsoft Visual C++ 20* Redistributable*'}
-      - name: Print Installed MS VC++ Redistributables via Get-WmiObject
-        shell: powershell
-        run: Get-WmiObject -Class Win32_Product -Filter "Name LIKE 'Microsoft Visual C++ 20%% Redistributable%'"
-      - name: Uninstall Installed MS VC++ Redistributables
-        shell: powershell
-        run: |
-          $apps = Get-WmiObject -Class Win32_Product -Filter "Name LIKE 'Microsoft Visual C++ 20%% Redistributable%'"
-          foreach ($app in $apps) {
-            echo $app
-            $app.Uninstall()
-          }
-      - name: Set up Windows SDK 7.1
-        continue-on-error: true
-        run: |
-          choco install -d windows-sdk-7.1 kb2519277 openssl.light
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+      - uses: actions/checkout@latest
+      - uses: DeLaGuardo/setup-graalvm@2.0
+          with:
+          graalvm-version: '19.3.0.2.java11' // GraalVM version, no pattern syntax available atm.
+      - run: java -version
+      - name: set env variables
+        shell: cmd
+        run: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
       - name: Build with Gradle
         run: ./gradlew build
       - name: Rename the artifact to OS-unique name
