@@ -15,6 +15,7 @@ jobs:
       with:
         graalvm-version: '19.3.0.2.java11'
     - run: java -version
+    - run: gu install native-image
     - name: Build with Gradle
       run: ./gradlew build
     - name: Rename the artifact to OS-unique name
@@ -28,7 +29,6 @@ jobs:
         path: build/graal
 
   build-windows:
-
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -41,11 +41,11 @@ jobs:
         with:
           graalvm-version: '19.3.0.2.java11'
       - run: java -version
-      - name: set env variables
+      - name: set env variables and run the Gradle build
         shell: cmd
-        run: call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-      - name: Build with Gradle
-        run: ./gradlew build
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          ./gradlew build
       - name: Rename the artifact to OS-unique name
         shell: bash
         run: |
