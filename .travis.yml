@@ -10,12 +10,12 @@
 jobs:
   include:
     - os: linux
-      env: JRE=
+      env: JAVA_HOME=
     - os: osx
-      env: JRE=
+      env: JAVA_HOME=
     - os: windows
       language: shell
-      env: JRE=jre/
+      env: JAVA_HOME=
       #env: JAVA_HOME=c:/java11
 #      env: JAVA_HOME="c:\Program Files\Java\jdk1.8.0_231"
 
