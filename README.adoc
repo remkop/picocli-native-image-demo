@@ -69,10 +69,12 @@ On Linux: `sudo dnf install gcc glibc-devel zlib-devel` or `sudo apt-get install
 
 On macOS, execute `xcode-select --install`.
 
-=== Windows Compiler Toolchain
 
-GraalVM https://github.com/oracle/graal/issues/1258[needs] the https://www.microsoft.com/en-us/download/details.aspx?id=8442[Microsoft Windows SDK for Windows 7 and .NET Framework 4] as well as the https://stackoverflow.com/a/45784634/873282[C compilers from KB2519277].
+=== Windows Compiler Toolchain for Java 8
 
+NOTE: It turns out to be surprisingly difficult to get the below toolchain set up in the various CI build environments. I recommend using the setup for Java 11 instead. Many CI build environments already have visualstudio2017-workload-vctools set up, so all that is needed is to activate the environment.
+
+To build native images using the Java 8 version of GraalVM, you need the https://www.microsoft.com/en-us/download/details.aspx?id=8442[Microsoft Windows SDK for Windows 7 and .NET Framework 4] as well as the https://stackoverflow.com/a/45784634/873282[C compilers from KB2519277].
 You can install these using https://chocolatey.org/docs/installation[chocolatey]:
 
 ----
@@ -87,14 +89,33 @@ call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
 
 This starts a new Command Prompt, with the sdk-7.1 environment enabled. All subsequent commands must be run in this Command Prompt window.
 
+=== Windows Compiler Toolchain for Java 11
+
+To build native images using the Java 11 version of GraalVM (19.3.0 and greater),
+install the Visual C++ Build Tools Workload for Visual Studio 2017 Build Tools
+using https://chocolatey.org/docs/installation[chocolatey]:
+
+[source]
+----
+choco install visualstudio2017-workload-vctools
+----
+
+After installation, set up the environment from the `cmd` prompt with this command:
+
+[source]
+----
+call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+----
+
+Then run `native-image` in that Command Prompt window.
 
 
-== Gradle
-
-The Gradle build uses the wonderful https://github.com/palantir/gradle-graal[gradle-graal plugin] from Palantir. This plugin will download the GraalVM JDK and unzip it and build with that. 
-
-The plugin has https://github.com/palantir/gradle-graal/pull/127[support for Windows], and it will take care of calling `call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"` to ensure the windows-sdk-7.1 environment is set up before the `native-image` generation tool is invoked.
-
-This makes your Gradle setup very simple. See the project https://github.com/remkop/picocli-native-image-demo/blob/master/build.gradle[build.gradle].
+//== Gradle
+//
+//The Gradle build uses the wonderful https://github.com/palantir/gradle-graal[gradle-graal plugin] from Palantir. This plugin will download the GraalVM JDK and unzip it and build with that.
+//
+//The plugin has https://github.com/palantir/gradle-graal/pull/127[support for Windows], and it will take care of calling `call "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"` to ensure the windows-sdk-7.1 environment is set up before the `native-image` generation tool is invoked.
+//
+//This makes your Gradle setup very simple. See the project https://github.com/remkop/picocli-native-image-demo/blob/master/build.gradle[build.gradle].
 
 

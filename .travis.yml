@@ -34,7 +34,8 @@ install:
 
 before_script:
   - chmod +x gradlew
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+  - if [ $TRAVIS_OS_NAME = windows ]; then call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" ; fi
+
 script:
   - ./gradlew -Djavax.net.ssl.trustStore=$JAVA_HOME/${JRE}lib/security/cacerts clean check --debug
   - if [ $TRAVIS_OS_NAME  = windows ]; then "$JAVA_HOME/bin/jar.exe" -cMvf build/graal/checksum-$TRAVIS_OS_NAME.zip build/graal/checksum.exe ; fi
