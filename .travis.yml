@@ -42,7 +42,7 @@ before_script:
   - if [ $TRAVIS_OS_NAME = windows ]; then call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" ; fi
 
 script:
-  - .gradlew --version
+  - ./gradlew --version
   - ./gradlew -Djavax.net.ssl.trustStore=$JAVA_HOME/${JRE}lib/security/cacerts clean check --debug
   - if [ $TRAVIS_OS_NAME  = windows ]; then "$JAVA_HOME/bin/jar.exe" -cMvf build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum.exe ; fi
   - if [ $TRAVIS_OS_NAME != windows ]; then zip -v build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum ; fi
