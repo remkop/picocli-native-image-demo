@@ -38,8 +38,8 @@ jobs:
     steps:
       - uses: actions/checkout@latest
       - uses: DeLaGuardo/setup-graalvm@2.0
-          with:
-          graalvm-version: '19.3.0.2.java11' // GraalVM version, no pattern syntax available atm.
+        with:
+          graalvm-version: '19.3.0.2.java11'
       - run: java -version
       - name: set env variables
         shell: cmd
