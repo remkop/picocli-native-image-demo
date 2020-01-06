@@ -20,7 +20,7 @@ jobs:
 #      env: JAVA_HOME="c:\Program Files\Java\jdk1.8.0_231"
 
 before_install:
-  - choco install zip unzip
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install zip unzip ; fi
   # adding $HOME/.sdkman to cache would create an empty directory, which interferes with the initial installation
   - "[[ -d $HOME/.sdkman/ ]] && [[ -d $HOME/.sdkman/bin/ ]] || rm -rf $HOME/.sdkman/"
   - curl -sL https://get.sdkman.io | bash
