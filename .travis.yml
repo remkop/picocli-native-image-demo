@@ -34,10 +34,10 @@ install:
   - sdk current java
   - echo $JAVA_HOME
   - sdk current java | grep '19.3.0.2.r11-grl' || sdk install java 19.3.0.2.r11-grl
+  - sdk current java
   - env
-  - gu install native-image
+  - if [ $TRAVIS_OS_NAME != windows ]; then gu install native-image ; fi
   - native-image --version
-#  - env
   - echo $JAVA_HOME
   - ls $JAVA_HOME/bin/
 
