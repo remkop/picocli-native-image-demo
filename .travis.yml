@@ -23,12 +23,14 @@ before_install:
   # adding $HOME/.sdkman to cache would create an empty directory, which interferes with the initial installation
   - "[[ -d /home/travis/.sdkman/ ]] && [[ -d /home/travis/.sdkman/bin/ ]] || rm -rf /home/travis/.sdkman/"
   - curl -sL https://get.sdkman.io | bash
-  - mkdir --parents $HOME/.sdkman/etc/
+  - mkdir -p $HOME/.sdkman/etc/
   - echo sdkman_auto_answer=true > $HOME/.sdkman/etc/config
   - echo sdkman_auto_selfupdate=true >> $HOME/.sdkman/etc/config
   - source "/home/travis/.sdkman/bin/sdkman-init.sh"
 
 install:
+  - sdk current java
+  - echo $JAVA_HOME
   - sdk install java 19.3.0.2.r11-grl
   - gu install native-image
   - native-image --version
