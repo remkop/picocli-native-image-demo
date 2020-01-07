@@ -1,5 +1,10 @@
 = Building native CLI apps in Java with picocli and GraalVM
 
+// create variables for some link text used in article to prevent link mangling in PDF
+:ms-cpp-2015-redist: Microsoft Visual C++ 2015 Redistributable Update 3 RC
+:ms-cpp-2010-redist: Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)
+
+
 image:https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true"[Appveyor Build Status,link=https://ci.appveyor.com/project/remkop/picocli-native-image-demo]
 image:https://github.com/remkop/picocli-native-image-demo/workflows/Java%20CI/badge.svg[GitHub Action Build Status,link=https://github.com/remkop/picocli-native-image-demo/actions]
 image:https://travis-ci.org/remkop/picocli-native-image-demo.svg?branch=master[Travis Build Status, link=https://travis-ci.org/remkop/picocli-native-image-demo]
@@ -37,8 +42,11 @@ This disables the SunEC elliptical curve encryption provider, which would have r
 
 == Windows Note
 
-The Windows executables created with GraalVM depend on the `msvcr100.dll` native library. 
-When distributing your native Windows executable you may want to include `msvcr100.dll` (from `C:\Windows\System32`) or ask your users to get it from Microsoft by installing the VS C++ Redistributable 2010.
+The Windows executables created with the Java 8 version of GraalVM depend on the `msvcr100.dll` native library.
+Windows executables created with the Java 11 version of GraalVM depend on the `VCRUNTIME140.dll` native library.
+
+You will have to distribute these DLLs with your application, or tell your users to download and install the link:https://www.microsoft.com/en-us/download/details.aspx?id=52685[{ms-cpp-2015-redist}] to get the `VCRUNTIME140.dll` for Java 11-based native images, or link:https://www.microsoft.com/en-hk/download/details.aspx?id=13523[{ms-cpp-2010-redist}] to get the `msvcr100.dll` for Java 8-based native images.
+
 
 
 == Testing Native Images
