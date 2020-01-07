@@ -45,11 +45,11 @@ public class Demo implements Callable<Integer> {
     }
 
     private void listSecurityProviders(boolean details) {
-        Provider p[] = Security.getProviders();
-        for (int i = 0; i < p.length; i++) {
-            System.out.println(p[i]);
+        Provider[] providers = Security.getProviders();
+        for (int i = 0; i < providers.length; i++) {
+            System.out.println(providers[i]);
             if (details) {
-                for (Enumeration e = p[i].keys(); e.hasMoreElements(); ) {
+                for (Enumeration e = providers[i].keys(); e.hasMoreElements(); ) {
                     System.out.println("\t" + e.nextElement());
                 }
             }
