@@ -51,11 +51,12 @@ if (!System.getProperty("os.name").toLowerCase().startsWith("win")) {
     test.dependsOn(tasks.getByName('nativeImage'))
 }
 
-File f = new File('https', 'java.security.overrides')
-if (!f.exists()) {
-    logger.log(LogLevel.ERROR, "File not found: " + f.getAbsolutePath())
-}
-
+// In GraalVM 19.2 we needed to exclude SunEC to avoid distributing additional libs.
+// From GraalVM 19.3 this is no longer necessary.
+//File f = new File('https', 'java.security.overrides')
+//if (!f.exists()) {
+//    logger.log(LogLevel.ERROR, "File not found: " + f.getAbsolutePath())
+//}
 
 // config for palantir
 //graal {
