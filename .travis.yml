@@ -10,12 +10,12 @@
 jobs:
   include:
     - os: linux
-      env: JAVA_HOME=
+      env: JAVA_HOME="$HOME/.sdkman/candidates/java/current" TRUST_STORE="$JAVA_HOME/${JRE}lib/security/cacerts"
     - os: osx
-      env: JAVA_HOME=
+      env: JAVA_HOME="$HOME/.sdkman/candidates/java/current" TRUST_STORE="$JAVA_HOME/${JRE}lib/security/cacerts"
     - os: windows
       language: shell
-      env: JAVA_HOME=
+      env: JAVA_HOME="$HOME/.sdkman/candidates/java/current" TRUST_STORE="$JAVA_HOME/${JRE}lib/security/cacerts"
       #env: JAVA_HOME=c:/java11
 #      env: JAVA_HOME="c:\Program Files\Java\jdk1.8.0_231"
 
@@ -34,12 +34,11 @@ install:
   - sdk current java
   - echo $JAVA_HOME
   - sdk current java | grep '19.3.0.2.r11-grl' || sdk install java 19.3.0.2.r11-grl
-  - sdk current java
   - env
-  - if [ $TRAVIS_OS_NAME != windows ]; then gu install native-image ; fi
-  - native-image --version
   - echo $JAVA_HOME
   - ls $JAVA_HOME/bin/
+  - if [ $TRAVIS_OS_NAME != windows ]; then gu install native-image ; fi
+  - native-image --version
 
 before_script:
   - chmod +x gradlew
@@ -47,7 +46,7 @@ before_script:
 
 script:
   - ./gradlew --version
-  - ./gradlew -Djavax.net.ssl.trustStore=$JAVA_HOME/${JRE}lib/security/cacerts clean check
+  - ./gradlew -Djavax.net.ssl.trustStore=$TRUST_STORE clean check
   - if [ $TRAVIS_OS_NAME  = windows ]; then "$JAVA_HOME/bin/jar.exe" -cMvf build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum.exe ; fi
   - if [ $TRAVIS_OS_NAME != windows ]; then zip -v build/native-image/checksum-$TRAVIS_OS_NAME.zip build/native-image/checksum ; fi
 
