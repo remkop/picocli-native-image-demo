@@ -62,8 +62,8 @@ public class SimpleHttpsServerImageTest {
         System.out.println(client.isAlive());
         assertFalse(client.isAlive(), "https-client process must not be alive after 20 seconds");
 
-        String cipherSuite = "TLS_RSA_WITH_AES_256_CBC_SHA256"; // TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 with SunEC
-        String altCiphersuite = "TLS_AES_128_GCM_SHA256";
+        //String cipherSuite = "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384"; // TLS_RSA_WITH_AES_256_CBC_SHA256 without SunEC
+        //String altCiphersuite = "TLS_AES_128_GCM_SHA256";
 
         String expectedPrefix = String.format("" +
                 "Response Code : 200%n" +
@@ -76,7 +76,7 @@ public class SimpleHttpsServerImageTest {
                 "Cert Public Key Format : X.509%n" +
                 "%n" +
                 "****** Content of the URL ********%n" +
-                "You asked for /; This is the response%n", cipherSuite);
+                "You asked for /; This is the response%n");
         String actualClientOut = getStdOut(client);
         assertTrue(actualClientOut.startsWith(expectedPrefix), actualClientOut);
         assertTrue(actualClientOut.endsWith(expectedPostfix), actualClientOut);

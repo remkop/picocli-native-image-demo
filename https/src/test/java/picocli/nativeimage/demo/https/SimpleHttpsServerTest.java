@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static picocli.nativeimage.demo.https.NativeImageHelper.getStdOut;
 
 public class SimpleHttpsServerTest {
 
@@ -51,9 +53,22 @@ public class SimpleHttpsServerTest {
             System.setOut(new PrintStream(baos));
             new CommandLine(new SimpleHttpsClient()).execute("--use-local-keystore", "https://localhost:7999");
 
-            String clientOutput = String.format("" +
+//            String clientOutput = String.format("" +
+//                    "Response Code : 200%n" +
+//                    "Cipher Suite : TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384%n" +
+//                    "%n" +
+//                    "Cert Type : X.509%n" +
+//                    "Cert Hash Code : -2137823083%n" +
+//                    "Cert Public Key Algorithm : RSA%n" +
+//                    "Cert Public Key Format : X.509%n" +
+//                    "%n" +
+//                    "****** Content of the URL ********%n" +
+//                    "You asked for /; This is the response%n");
+//            assertEquals(clientOutput, baos.toString());
+            String expectedPrefix = String.format("" +
                     "Response Code : 200%n" +
-                    "Cipher Suite : TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384%n" +
+                    "Cipher Suite : "); // asserting on cipher suite makes test fragile
+            String expectedPostfix = String.format("" +
                     "%n" +
                     "Cert Type : X.509%n" +
                     "Cert Hash Code : -2137823083%n" +
@@ -62,7 +77,9 @@ public class SimpleHttpsServerTest {
                     "%n" +
                     "****** Content of the URL ********%n" +
                     "You asked for /; This is the response%n");
-            assertEquals(clientOutput, baos.toString());
+            String actualClientOut = baos.toString();
+            assertTrue(actualClientOut.startsWith(expectedPrefix), actualClientOut);
+            assertTrue(actualClientOut.endsWith(expectedPostfix), actualClientOut);
         } finally {
             server.stop(1);
             System.setOut(oldOut);
