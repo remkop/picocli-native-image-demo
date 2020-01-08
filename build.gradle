@@ -70,3 +70,6 @@ nativeImage {
             '--report-unsupported-elements-at-runtime'
     )
 }
+// work around https://github.com/mike-neck/graalvm-native-image-plugin/issues/12
+tasks.nativeImage.outputs.upToDateWhen { false }
+
