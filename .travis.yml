@@ -42,7 +42,7 @@ install:
 
 before_script:
   - chmod +x gradlew
-  - if [ $TRAVIS_OS_NAME = windows ]; then call "choco install visualstudio2017-workload-vctools" ; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install visualstudio2017-workload-vctools ; fi
   - if [ $TRAVIS_OS_NAME = windows ]; then call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" ; fi
 
 script:
