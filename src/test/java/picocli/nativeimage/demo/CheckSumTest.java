@@ -27,7 +27,8 @@ public class CheckSumTest {
                     "Usage: checksum [-hV] [-a=<algorithm>] [@<filename>...] <file>%n" +
                     "Prints the checksum (MD5 by default) of a file to STDOUT.%n" +
                     "      [@<filename>...]   One or more argument files containing options.%n" +
-                    "      <file>             The file whose checksum to calculate.%n" +
+                    "      <file>             The file whose checksum to calculate, or '-' to read%n" +
+                    "                           from the standard input stream.%n" +
                     "  -a, --algorithm=<algorithm>%n" +
                     "                         MD5, SHA-1, SHA-256, ...%n" +
                     "  -h, --help             Show this help message and exit.%n" +
