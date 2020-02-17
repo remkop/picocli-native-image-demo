@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.concurrent.Callable;
 
-@Command(name = "checksum", mixinStandardHelpOptions = true,
+@Command(name = "checksum", mixinStandardHelpOptions = true, showAtFileInUsageHelp = true,
         version = "checksum 4.0",
         description = "Prints the checksum (MD5 by default) of a file to STDOUT.")
 class CheckSum implements Callable<Integer> {

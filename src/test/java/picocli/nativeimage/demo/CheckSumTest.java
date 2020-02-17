@@ -24,13 +24,14 @@ public class CheckSumTest {
             
             String expected = String.format("" +
                     "Missing required parameter: <file>%n" +
-                    "Usage: checksum [-hV] [-a=<algorithm>] <file>%n" +
+                    "Usage: checksum [-hV] [-a=<algorithm>] [@<filename>...] <file>%n" +
                     "Prints the checksum (MD5 by default) of a file to STDOUT.%n" +
-                    "      <file>      The file whose checksum to calculate.%n" +
+                    "      [@<filename>...]   One or more argument files containing options.%n" +
+                    "      <file>             The file whose checksum to calculate.%n" +
                     "  -a, --algorithm=<algorithm>%n" +
-                    "                  MD5, SHA-1, SHA-256, ...%n" +
-                    "  -h, --help      Show this help message and exit.%n" +
-                    "  -V, --version   Print version information and exit.%n");
+                    "                         MD5, SHA-1, SHA-256, ...%n" +
+                    "  -h, --help             Show this help message and exit.%n" +
+                    "  -V, --version          Print version information and exit.%n");
             assertEquals(expected, baos.toString());
         } finally {
             System.setErr(oldErr);
