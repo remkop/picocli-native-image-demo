@@ -69,6 +69,7 @@ public class SimpleHttpsServer implements Callable<Integer> {
     HttpsServer httpsServer;
     volatile boolean running;
 
+    @Override
     public Integer call() throws IOException, NoSuchAlgorithmException,
             KeyStoreException, CertificateException, UnrecoverableKeyException,
             KeyManagementException {
@@ -77,7 +78,8 @@ public class SimpleHttpsServer implements Callable<Integer> {
         httpsServer.setHttpsConfigurator(createHttpsConfigurator());
         httpsServer.createContext("/", new MyHandler());
         httpsServer.createContext("/test", new MyHandler());
-        httpsServer.setExecutor(null); // creates a default single-threaded executor
+        // creates a default single-threaded executor
+        httpsServer.setExecutor(null);
         httpsServer.start();
         System.out.println("Server started OK on port " + httpsServer.getAddress().getPort());
 
@@ -165,6 +167,7 @@ public class SimpleHttpsServer implements Callable<Integer> {
         }
 
         return new HttpsConfigurator(sslContext) {
+            @Override
             public void configure(HttpsParameters params) {
                 try {
                     // initialise the SSL context

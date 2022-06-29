@@ -21,15 +21,14 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    jcenter()
     mavenCentral()
     mavenLocal()
 }
 
 dependencies {
-    compile 'info.picocli:picocli:4.2.0'
-    compile 'info.picocli:picocli-jansi-graalvm:1.1.0'
-    compile 'org.fusesource.jansi:jansi:1.18'
+    implementation 'info.picocli:picocli:4.2.0'
+    implementation 'info.picocli:picocli-jansi-graalvm:1.1.0'
+    implementation 'org.fusesource.jansi:jansi:1.18'
 
     annotationProcessor 'info.picocli:picocli-codegen:4.2.0'
 

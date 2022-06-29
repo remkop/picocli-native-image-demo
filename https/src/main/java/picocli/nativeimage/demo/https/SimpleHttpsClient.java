@@ -74,6 +74,7 @@ public class SimpleHttpsClient implements Callable<Integer> {
         System.exit(exitCode);
     }
 
+    @Override
     public Integer call() throws Exception {
         if (useLocalKeyStore) {
             HttpsURLConnection.setDefaultSSLSocketFactory(customSSLSocketFactory());
@@ -87,7 +88,7 @@ public class SimpleHttpsClient implements Callable<Integer> {
                 printCertificates(con, out);
             } catch (SSLException ex) {
                 if (!useLocalKeyStore) {
-                    System.err.println(ex);
+                    System.err.println(ex.getMessage());
                     System.err.println("Try the --use-local-keystore option when connecting to the demo https server on localhost");
                 } else {
                     throw ex;
