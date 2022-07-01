@@ -34,7 +34,8 @@ public class Demo implements Callable<Integer> {
         System.exit(exitCode);
     }
 
-    public Integer call() throws Exception {
+    @Override
+    public Integer call() {
         if (listSecurityProviders || listProviderDetails) {
             listSecurityProviders(listProviderDetails);
         } else {
@@ -46,10 +47,10 @@ public class Demo implements Callable<Integer> {
 
     private void listSecurityProviders(boolean details) {
         Provider[] providers = Security.getProviders();
-        for (int i = 0; i < providers.length; i++) {
-            System.out.println(providers[i]);
+        for (Provider provider : providers) {
+            System.out.println(provider);
             if (details) {
-                for (Enumeration e = providers[i].keys(); e.hasMoreElements(); ) {
+                for (Enumeration<Object> e = provider.keys(); e.hasMoreElements(); ) {
                     System.out.println("\t" + e.nextElement());
                 }
             }
