@@ -23,21 +23,23 @@ public class SimpleHttpsClientTest {
             
             String expected = String.format("" +
                     "Response Code : 200%n" +
-                    "Cipher Suite : TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256%n" +
-                    "%n" +
-                    "Cert Type : X.509%n" +
-                    "Cert Hash Code : -898597699%n" +
-                    "Cert Public Key Algorithm : RSA%n" +
+                    "Cipher Suite : TLS");
+            String out = baos.toString().trim();
+            assertTrue(out.startsWith(expected), () -> out);
+
+            expected = String.format("Cert Public Key Algorithm : RSA%n" +
                     "Cert Public Key Format : X.509%n" +
                     "%n" +
-                    "Cert Type : X.509%n" +
-                    "Cert Hash Code : -599509715%n" +
+                    "Cert Type : X.509%n");
+            assertTrue(out.contains(expected), () -> out);
+
+            expected = String.format("" +
                     "Cert Public Key Algorithm : RSA%n" +
                     "Cert Public Key Format : X.509%n" +
                     "%n" +
                     "****** Content of the URL ********%n" +
-                    "security.provider.3=notSunEC%n");
-            assertEquals(expected, baos.toString());
+                    "security.provider.3=notSunEC");
+            assertTrue(out.endsWith(expected), () -> out);
         } finally {
             System.setOut(oldOut);
         }
