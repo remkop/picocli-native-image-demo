@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         //classpath "gradle.plugin.com.palantir.graal:gradle-graal:0.6.0"
-        classpath "gradle.plugin.org.mikeneck:graalvm-native-image-plugin:0.2"
+        classpath "gradle.plugin.org.mikeneck:graalvm-native-image-plugin:1.4.1"
     }
 }
 plugins {
@@ -23,15 +23,14 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
-    implementation 'info.picocli:picocli:4.2.0'
-    implementation 'info.picocli:picocli-jansi-graalvm:1.1.0'
-    implementation 'org.fusesource.jansi:jansi:1.18'
+    implementation 'info.picocli:picocli:4.6.3'
+    implementation 'info.picocli:picocli-jansi-graalvm:1.2.0'
+    implementation 'org.fusesource.jansi:jansi:2.4.0'
 
-    annotationProcessor 'info.picocli:picocli-codegen:4.2.0'
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
@@ -69,6 +68,3 @@ nativeImage {
             '--report-unsupported-elements-at-runtime'
     )
 }
-// work around https://github.com/mike-neck/graalvm-native-image-plugin/issues/12
-tasks.nativeImage.outputs.upToDateWhen { false }
-

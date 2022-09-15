@@ -108,7 +108,7 @@ class CheckSumImageTest {
         Process process = new ProcessBuilder(executable()).start();
 
         String expected = String.format("" +
-                "Missing required parameter: <file>%n" +
+                "Missing required parameter: '<file>'%n" +
                 "Usage: checksum [-hV] [-a=<algorithm>] [@<filename>...] <file>%n" +
                 "Prints the checksum (MD5 by default) of a file to STDOUT.%n" +
                 "      [@<filename>...]   One or more argument files containing options.%n" +
