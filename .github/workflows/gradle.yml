@@ -1,8 +1,6 @@
 name: Java CI
 
 on: [push]
-permissions:
-  contents: write
 jobs:
   build-ubuntu-mac:
     runs-on: ${{ matrix.os }}
