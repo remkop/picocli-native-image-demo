@@ -22,7 +22,7 @@ jobs:
     - name: Rename the artifact to OS-unique name
       shell: bash
       run: |
-        value=`cp build/graal/checksum build/graal/checksum-${{ matrix.os }}`
+        value=`cp build/native-image/checksum build/native-image/checksum-${{ matrix.os }}`
     - name: Publish artifact
       uses: actions/upload-artifact@master
       with:
