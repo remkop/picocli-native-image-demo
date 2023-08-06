@@ -18,8 +18,14 @@ jobs:
     - run: java -version
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Rename the artifact to OS-unique name
+    - name: Rename the artifact to OS-unique name on Windows
       shell: bash
+      if: matrix.os == 'windows-latest'
+      run: |
+        value=`cp build\graal\checksum build\graal\checksum-${{ matrix.os }}`
+    - name: Rename the artifact to OS-unique name on Ubuntu and MacOS
+      shell: bash
+      if: matrix.os != 'windows-latest'
       run: |
         value=`cp build/graal/checksum build/graal/checksum-${{ matrix.os }}`
     - name: Publish artifact
